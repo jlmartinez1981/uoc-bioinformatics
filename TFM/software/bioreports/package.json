@@ -1,0 +1,28 @@
+{
+  "name": "bioreports",
+  "version": "1.0.0",
+  "description": "snps reporting tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlmartinez1981/uoc-bioinformatics.git"
+  },
+  "keywords": [
+    "bioinformatics"
+  ],
+  "author": "Jose Luis Martínez Pérez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlmartinez1981/uoc-bioinformatics/issues"
+  },
+  "homepage": "https://github.com/jlmartinez1981/uoc-bioinformatics#readme",
+  "devDependencies": {
+    "express": "^4.16.2",
+    "typescript": "^2.7.2",
+    "webpack": "^4.1.0"
+  }
+}
