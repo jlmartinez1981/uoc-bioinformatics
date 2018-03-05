@@ -22,7 +22,17 @@
   "homepage": "https://github.com/jlmartinez1981/uoc-bioinformatics#readme",
   "devDependencies": {
     "express": "^4.16.2",
+    "ts-loader": "^4.0.1",
     "typescript": "^2.7.2",
     "webpack": "^4.1.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "errorhandler": "^1.5.0",
+    "method-override": "^2.3.10",
+    "morgan": "^1.9.0",
+    "path": "^0.12.7",
+    "webpack-cli": "^2.0.10"
   }
 }
