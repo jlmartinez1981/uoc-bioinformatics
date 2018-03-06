@@ -6,7 +6,8 @@ module.exports = [{
     filename: 'bioreports.js',
     path: path.resolve(__dirname, 'dist')
   },
-  mode:'development'
+  mode:'development',
+  target: 'node'
 },
 {
   entry: './src/server/server.ts',
@@ -15,7 +16,7 @@ module.exports = [{
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        loader: 'ts-loader',
         exclude: /node_modules/
       }
     ]
@@ -27,5 +28,6 @@ module.exports = [{
     filename: 'server.js',
     path: path.resolve(__dirname, 'dist')
   },
-  mode:'development'
+  mode:'development',
+  target: 'node'
 }];

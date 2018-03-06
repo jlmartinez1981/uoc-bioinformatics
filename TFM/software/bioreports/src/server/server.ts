@@ -1,12 +1,11 @@
 import * as express from "express";
-/*
 import * as bodyParser from "body-parser";
 import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 import * as path from "path";
 import * as errorHandler from "errorhandler";
 import * as methodOverride from "method-override";
-*/
+
 
 /**
  * The server.
