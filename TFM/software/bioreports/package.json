@@ -12,7 +12,8 @@
     "prod:serve": "node dist",
     "test": "jest --forceExit --coverage --verbose",
     "package": "npm run clean ./release && node deployment-scripts/pack.js",
-    "deploy": ""
+    "deploy": "",
+    "copy-static": "find ./src/public -name '*.html' -type f -exec cp --parents {} ./dist \\;"
   },
   "repository": {
     "type": "git",
