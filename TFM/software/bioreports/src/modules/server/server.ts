@@ -65,12 +65,22 @@ export class Server {
    * @method config
    */
   public config() {
+    this.app.set('port', process.env.PORT || 3000);
+    this.app.set('views', __dirname + '../../views');
+    /**
+     * Error Handler. Provides full stack - remove for production
+     */
+    this.app.use(errorHandler());
+
+    // app = config(app);
+
     this.app.get('/', function(req: express.Request, res: express.Response) {
       res.send('Hello world!');
   });
 
-  this.app.listen(3000, function() {
-    console.log('Rules Server Listening at port 3000');
+  const listeningPort = this.app.get('port');
+  this.app.listen(listeningPort, function() {
+    console.log('Rules Server up: http://localhost:', listeningPort);
   });
   }
 

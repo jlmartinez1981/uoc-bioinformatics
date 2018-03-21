@@ -1,4 +1,5 @@
 import { Server } from './modules/server/server';
+
 const server = Server.bootstrap();
 
 // module dependencies
