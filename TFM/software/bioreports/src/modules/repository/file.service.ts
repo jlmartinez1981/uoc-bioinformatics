@@ -1,8 +1,8 @@
 /**
  * FileService
- * 
+ *
  * @class FileService
- * @description 
+ * @description
  */
 export class FileService {
 

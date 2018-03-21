@@ -1,8 +1,8 @@
 /**
  * External process
- * 
+ *
  * @class ExternalProcess
- * @description 
+ * @description
  */
 export class ExternalProcess {
 

@@ -72,6 +72,9 @@ export class Server {
      */
     this.app.use(errorHandler());
 
+    // static  files mapped to a virtual directory
+    this.app.use('/static', express.static(path.join(__dirname, 'public')));
+
     // app = config(app);
 
     this.app.get('/', function(req: express.Request, res: express.Response) {

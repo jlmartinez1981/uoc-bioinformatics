@@ -1,8 +1,8 @@
 /**
  * OmicService
- * 
+ *
  * @class OmicService
- * @description 
+ * @description
  */
 export class OmicService {
 

@@ -1,8 +1,8 @@
 /**
  * ReportService
- * 
+ *
  * @class ReportService
- * @description 
+ * @description
  */
 export class ReportService {
 
