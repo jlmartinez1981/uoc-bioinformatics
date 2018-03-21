@@ -73,12 +73,13 @@ export class Server {
     this.app.use(errorHandler());
 
     // static  files mapped to a virtual directory
-    this.app.use('/static', express.static(path.join(__dirname, 'public')));
+    this.app.use('/static', express.static(path.join(__dirname, '../../public')));
 
     // app = config(app);
 
     this.app.get('/', function(req: express.Request, res: express.Response) {
-      res.send('Hello world!');
+      // res.send('Hello world!');
+      res.sendFile(path.join(__dirname + '../../../views/index.html'));
   });
 
   const listeningPort = this.app.get('port');
