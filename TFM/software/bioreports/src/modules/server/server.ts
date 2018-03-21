@@ -1,10 +1,10 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
-import * as logger from "morgan";
-import * as path from "path";
-import * as errorHandler from "errorhandler";
-import * as methodOverride from "method-override";
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import * as logger from 'morgan';
+import * as path from 'path';
+import * as errorHandler from 'errorhandler';
+import * as methodOverride from 'method-override';
 
 
 /**
@@ -35,16 +35,16 @@ export class Server {
    * @constructor
    */
   constructor() {
-    //create expressjs application
+    // create expressjs application
     this.app = express();
 
-    //configure application
+    // configure application
     this.config();
 
-    //add routes
+    // add routes
     this.routes();
 
-    //add api
+    // add api
     this.api();
   }
 
@@ -55,7 +55,7 @@ export class Server {
    * @method api
    */
   public api() {
-    //empty for now
+    // empty for now
   }
 
   /**
@@ -65,7 +65,13 @@ export class Server {
    * @method config
    */
   public config() {
-    //empty for now
+    this.app.get('/', function(req: express.Request, res: express.Response) {
+      res.send('Hello world!');
+  });
+
+  this.app.listen(3000, function() {
+    console.log('Rules Server Listening at port 3000');
+  });
   }
 
   /**
@@ -75,6 +81,6 @@ export class Server {
    * @method api
    */
   public routes() {
-    //empty for now
+    // empty for now
   }
 }
