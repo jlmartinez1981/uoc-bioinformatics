@@ -5,7 +5,7 @@ import * as logger from 'morgan';
 import * as path from 'path';
 import * as errorHandler from 'errorhandler';
 import * as methodOverride from 'method-override';
-
+import * as compression from 'compression'; // compresses requests
 
 /**
  * The server.
@@ -67,6 +67,10 @@ export class Server {
   public config() {
     this.app.set('port', process.env.PORT || 3000);
     this.app.set('views', __dirname + '../../views');
+    this.app.set('view engine', 'ejs');
+    this.app.use(compression());
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
     /**
      * Error Handler. Provides full stack - remove for production
      */
