@@ -8,6 +8,7 @@ import * as methodOverride from 'method-override';
 import * as compression from 'compression'; // compresses requests
 import * as formidable from 'formidable';
 import * as fs from 'fs';
+import * as fileUpload from 'express-fileupload';
 
 /**
  * The server.
@@ -24,7 +25,7 @@ export class Server {
    * @class Server
    * @method bootstrap
    * @static
-   * @return {ng.auto.IInjectorService} Returns the newly created injector for this app.
+   * @return
    */
   public static bootstrap(): Server {
     return new Server();
@@ -70,9 +71,10 @@ export class Server {
     this.app.set('port', process.env.PORT || 3000);
     this.app.set('views', __dirname + '../../views');
     this.app.set('view engine', 'ejs');
-    this.app.use(compression());
-    this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extended: true }));
+    // this.app.use(compression());
+    this.app.use(fileUpload());
+    // this.app.use(bodyParser.json());
+    // this.app.use(bodyParser.urlencoded({ extended: true }));
     /**
      * Error Handler. Provides full stack - remove for production
      */
@@ -85,7 +87,7 @@ export class Server {
 
     const listeningPort = this.app.get('port');
     this.app.listen(listeningPort, function() {
-      console.log('Rules Server up: http://localhost:', listeningPort);
+      console.log('Reports Server up: http://localhost:', listeningPort);
     });
   }
 
@@ -106,6 +108,9 @@ export class Server {
 
     // upload
     this.app.post('/upload', function(req, res, next) {
+      if (!req.files)
+        return res.status(400).send('No files were uploaded.');
+
       console.log('UPLOADING FILE: ', req.params.files); // the uploaded file object
       next();
     });
