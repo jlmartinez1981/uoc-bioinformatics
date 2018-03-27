@@ -3,6 +3,7 @@ import { Server } from './modules/server/server';
 const server = Server.bootstrap();
 
 // module dependencies
+/*
 const debug = require('debug')('express:server');
 const http = require('http');
 
@@ -20,11 +21,12 @@ httpServer.on('error', onError);
 
 // start listening on port
 httpServer.on('listening', onListening);
-
+*/
 
 /**
  * Normalize a port into a number, string, or false.
  */
+/*
 function normalizePort(val: any) {
   const port = parseInt(val, 10);
 
@@ -40,10 +42,11 @@ function normalizePort(val: any) {
 
   return false;
 }
-
+*/
 /**
  * Event listener for HTTP server "error" event.
  */
+/*
 function onError(error: any) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -67,14 +70,15 @@ function onError(error: any) {
       throw error;
   }
 }
-
+*/
 /**
  * Event listener for HTTP server "listening" event.
  */
+/*
 function onListening() {
   const addr = httpServer.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-}
+}*/
