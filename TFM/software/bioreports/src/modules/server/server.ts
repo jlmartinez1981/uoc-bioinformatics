@@ -71,7 +71,7 @@ export class Server {
    */
   public config() {
     this.app.set('port', process.env.PORT || 3000);
-    this.app.set('views', __dirname + '../../views');
+    this.app.set('views', path.join(__dirname, '../../views'));
     this.app.set('view engine', 'ejs');
     // this.app.use(compression());
     this.app.use(fileUpload());
@@ -106,7 +106,13 @@ export class Server {
 
     // index
     this.app.get('/', function(req: express.Request, res: express.Response) {
-      res.sendFile(path.join(__dirname + '../../../views/index.html'));
+      res.render('pages/index');
+    });
+
+    // ejs test https://scotch.io/tutorials/use-ejs-to-template-your-node-application
+    this.app.get('/test', function(req: express.Request, res: express.Response) {
+      // res.render(path.join(__dirname + '../../../views/test'));
+      res.render('pages/test', {greeting: 'Hello world!'});
     });
 
     // upload

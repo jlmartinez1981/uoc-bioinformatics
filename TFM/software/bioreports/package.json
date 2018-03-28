@@ -6,14 +6,14 @@
   "scripts": {
     "clean": "./node_modules/.bin/rimraf -rf",
     "tslint": "tslint -c tslint.json --project tsconfig.json",
-    "build": "npm run clean ./dist && npm run tslint &&  tsc",
+    "build": "npm run clean ./dist && npm run tslint &&  tsc && npm run copy-static-assets",
     "build:watch": "./node_modules/.bin/rimraf -rf ./dist && npm run tslint && tsc --watch",
     "dev:serve": "nodemon ./dist",
     "prod:serve": "node dist",
     "test": "jest --forceExit --coverage --verbose",
     "package": "npm run clean ./release && node deployment-scripts/pack.js",
     "deploy": "",
-    "copy-static": "find ./src/public -name '*.html' -type f -exec cp --parents {} ./dist \\;"
+    "copy-static-assets": "ts-node copyStaticAssets.ts"
   },
   "repository": {
     "type": "git",
@@ -41,9 +41,11 @@
     "@types/method-override": "0.0.31",
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.4.7",
+    "@types/shelljs": "^0.7.8",
     "compression": "^1.7.2",
     "dateformat": "^3.0.3",
     "express": "^4.16.3",
+    "shelljs": "^0.8.1",
     "ts-loader": "^4.0.1",
     "ts-node": "^5.0.1",
     "tslint": "^5.9.1",
@@ -53,6 +55,7 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.8",
     "errorhandler": "^1.5.0",
     "express": "^4.16.2",
     "express-fileupload": "^0.4.0",

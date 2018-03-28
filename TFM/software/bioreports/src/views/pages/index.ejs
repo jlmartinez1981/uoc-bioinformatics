@@ -1,8 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    
-</head>    
+    <% include ../partials/head %>
+</head>       
 <body>
+    <header>
+        <% include ../partials/header %>
+    </header>
     <h1>Hello from Bioreports</h1>
     <h2>From this site you will be able to generate genetic reports from yor SNPs raw data.</h2>
 
@@ -17,5 +21,8 @@
         </form>
         <textarea name="snpText" form="uploadForm">#Enter SNPs here...</textarea>
     </div>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
 </body>
 </html>
