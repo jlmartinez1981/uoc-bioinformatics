@@ -11,11 +11,11 @@
             Please either choose a SNP raw data file or type your data in the text area and press Upload.
         </p>
         <form action="/upload" enctype="multipart/form-data" method="post" id="uploadForm">
-            <input type="text" name="title">
-            <input type="file" name="file">
+            <input type="text" name="fileName">
+            <input type="file" name="snpFile">
             <input type="submit" value="Upload">
         </form>
-        <textarea name="snps" form="uploadForm">#Enter SNPs here...</textarea>
+        <textarea name="snpText" form="uploadForm">#Enter SNPs here...</textarea>
     </div>
 </body>
 </html>

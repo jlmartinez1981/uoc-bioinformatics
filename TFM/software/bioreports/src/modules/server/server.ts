@@ -1,14 +1,16 @@
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
+// import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 import * as path from 'path';
 import * as errorHandler from 'errorhandler';
 import * as methodOverride from 'method-override';
 import * as compression from 'compression'; // compresses requests
-import * as formidable from 'formidable';
+// import * as formidable from 'formidable';
 import * as fs from 'fs';
 import * as fileUpload from 'express-fileupload';
+import * as dateFormat from 'dateformat';
+import { SnpUtils } from '../utils/snp.utils';
 
 /**
  * The server.
@@ -73,6 +75,7 @@ export class Server {
     this.app.set('view engine', 'ejs');
     // this.app.use(compression());
     this.app.use(fileUpload());
+
     // this.app.use(bodyParser.json());
     // this.app.use(bodyParser.urlencoded({ extended: true }));
     /**
@@ -107,51 +110,61 @@ export class Server {
     });
 
     // upload
-    this.app.post('/upload', function(req, res, next) {
-      if (!req.files)
-        return res.status(400).send('No files were uploaded.');
+    /*
+    Your input's name field is foo: <input name="foo" type="file" />
+    The req.files.foo object will contain the following:
 
-      console.log('UPLOADING FILE: ', req.params.files); // the uploaded file object
-      next();
-    });
-
+    req.files.foo.name: "car.jpg"
+    req.files.foo.mv: A function to move the file elsewhere on your server
+    req.files.foo.mimetype: The mimetype of your file
+    req.files.foo.data: A buffer representation of your file
+    req.files.foo.truncated: A boolean that represents if the file is over the size limit
+    */
     // upload
-    this.app.post('/upload', function(req, res, next) {
+    this.app.post('/upload', async function(req, res, next) {
       console.log('UPLOADING FILE...');
-      // create an incoming form object
-      const form = new formidable.IncomingForm();
+      try {
+        const uploadsPath = path.join(__dirname, '../../uploads');
+        // create dir if does not exist
+        if (!fs.existsSync(uploadsPath)) {
+          fs.mkdirSync(uploadsPath);
+        }
 
-      // specify that we want to allow the user to upload multiple files in a single request
-      // form.multiples = true;
-
-      // store all uploads in the /uploads directory
-      form.uploadDir = path.join(__dirname, '/uploads');
-
-      // every time a file has been uploaded successfully,
-      // rename it to it's orignal name
-      form.on('file', function(field: any, file: any) {
-        fs.rename(file.path, path.join(form.uploadDir, file.name), (err) => {
-          if (err) {
-            throw err;
+        if (Object.keys(req.files).length === 0 && req.files.constructor === Object) {
+          // the rest of parameters come in req.body
+          const params: any = req.body;
+          if (SnpUtils.checkSNPText(params.snpText)) {
+            // TODO save the file with title|anomymous-date.txt
+            const snpFileName: string = (params.fileName !== '' ? params.fileName : 'anonymous');
+            const dateStr = dateFormat(Date.now(), 'yyyymmddHHMMss');
+            const storageName = dateStr.concat('-', snpFileName);
+            console.log('SnpFileName: ', storageName);
           }
-          console.log('Rename complete!');
-        });
-      });
+          // TODO create file and save it
+          const result = true;
 
-      // log any errors that occur
-      form.on('error', function(err: any) {
-        console.log('An error has occured: \n' + err);
-      });
-
-      // once all the files have been uploaded, send a response to the client
-      form.on('end', function() {
-        console.log('FILE UPLOADED: ', req.params.files); // the uploaded file object
-        res.end('success');
-      });
-
-      // parse the incoming request containing the form data
-      form.parse(req);
-
+          if (result == true) {
+            res.send('SNP text uploaded!');
+          }
+        } else {
+          // Save file if it exists
+          // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+          const snpFile: any = req.files ? req.files.snpFile : undefined;
+          const fileName = snpFile.name;
+          const filePath = path.join(uploadsPath, fileName);
+          // Use the mv() method to place the file somewhere on your server
+          snpFile.mv(filePath, function(err: any) {
+            if (err) {
+              console.error(`Error copying file to ${filePath}: ${err}`);
+              return res.status(500).send(err);
+            }
+            res.send('File uploaded!');
+            });
+          }
+      } catch (err) {
+        console.error(`Error uploading file: ${err}`);
+        return res.status(500).send(err);
+      }
     });
   }
 }
