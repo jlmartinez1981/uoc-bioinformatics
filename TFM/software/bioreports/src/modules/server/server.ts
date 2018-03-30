@@ -12,6 +12,7 @@ import * as dateFormat from 'dateformat';
 import { SnpUtils } from '../utils/snp.utils';
 import { FileService } from '../repository/file.service';
 import { ReportService } from '../report/report.service';
+import { ETLService } from '../data-transform/etl.service';
 
 /**
  * The server.
@@ -23,6 +24,7 @@ export class Server {
   public app: express.Application;
   private fileService: FileService;
   private reportService: ReportService;
+  private etlService: ETLService;
 
   /**
    * Bootstrap the application.
@@ -143,14 +145,13 @@ export class Server {
       console.log('UPLOADING FILE...');
       try {
         const uploadsPath = FileService.UPLOAD_PATH;
-
+        const dateStr: string = dateFormat(Date.now(), 'yyyymmddHHMMss');
         if (Object.keys(req.files).length === 0 && req.files.constructor === Object) {
           // the rest of parameters come in req.body
           const params: any = req.body;
           if (SnpUtils.checkSNPText(params.snpText)) {
             // TODO save the file with title|anomymous-date.txt
             const snpFileName: string = (params.fileName !== '' ? params.fileName : 'anonymous');
-            const dateStr = dateFormat(Date.now(), 'yyyymmddHHMMss');
             const storageName = dateStr.concat('-', snpFileName);
             console.log('SnpFileName: ', storageName);
           }
@@ -164,21 +165,28 @@ export class Server {
           // Save file if it exists
           // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
           const snpFile: any = req.files ? req.files.snpFile : undefined;
-          const fileName = snpFile.name;
+          const fileName = dateStr.concat('-', snpFile.name);
           const filePath = path.join(uploadsPath, fileName);
           // Use the mv() method to place the file somewhere on your server
-          snpFile.mv(filePath, function(err: any) {
+          const fileUploadPromise = snpFile.mv(filePath); /*, function(err: any) {
             if (err) {
               console.error(`Error copying file to ${filePath}: ${err}`);
               return res.status(500).send(err);
             }
-            res.render('pages/results', {uploadResult: 'SNP file uploaded!'});
+            res.render('pages/results', {uploadResult: `${fileName} SNP file uploaded!`});
+            });*/
+            fileUploadPromise.then((result: any) => {
+              console.log(`${fileName} file uploaded to ${filePath}`);
+              res.render('pages/results', {uploadResult: `${fileName} SNP file uploaded!`});
+            }).catch((err: any) => {
+              console.error(`Error copying file to ${filePath}: ${err}`);
+              return res.render('pages/error', {error: err});
             });
           }
       } catch (err) {
         console.error(`Error uploading file: ${err}`);
         // return res.status(500).send(err);
-        return res.render('pags/error', {error: err});
+        return res.render('pages/error', {error: err});
       }
     });
   }

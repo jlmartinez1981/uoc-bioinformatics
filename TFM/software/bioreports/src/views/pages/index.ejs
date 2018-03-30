@@ -17,7 +17,7 @@
         <form action="/upload" enctype="multipart/form-data" method="post" id="uploadForm">
             <div class="form-group">
                 <label for="filenameInput">Filename: </label>
-                <input type="text" name="fileName" id="filenameInput">    
+                <input type="text" name="fileName" id="filenameInput" placeholder="file name">    
             </div>
             
             <div class="form-group">
@@ -26,8 +26,8 @@
             </div>
             
             <div class="form-group">
-                <label for="textInput">Enter your snp file: </label>
-                <textarea name="snpText" form="uploadForm" class="form-control" id="textInput">#Enter SNPs here...</textarea>                    
+                <label for="textInput">Enter your snp file (mandatory fields rsId, chr and position, separated by space): </label>
+                <textarea name="snpText" form="uploadForm" class="form-control" id="textInput" placeholder="#rsId   #chr    #position"></textarea>
             </div>
         
             <input type="submit" class="btn btn-primary" value="Upload">
