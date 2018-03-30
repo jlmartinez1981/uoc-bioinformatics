@@ -11,6 +11,8 @@ import * as fs from 'fs';
 import * as fileUpload from 'express-fileupload';
 import * as dateFormat from 'dateformat';
 import { SnpUtils } from '../utils/snp.utils';
+import { FileService } from '../repository/file.service';
+import { ReportService } from '../report/report.service';
 
 /**
  * The server.
@@ -20,6 +22,8 @@ import { SnpUtils } from '../utils/snp.utils';
 export class Server {
 
   public app: express.Application;
+  private fileService: FileService;
+  private reportService: ReportService;
 
   /**
    * Bootstrap the application.
@@ -40,6 +44,8 @@ export class Server {
    * @constructor
    */
   constructor() {
+
+    this.initServices();
     // create expressjs application
     this.app = express();
 
@@ -51,6 +57,11 @@ export class Server {
 
     // add api
     this.api();
+  }
+
+  private initServices(): void {
+    this.fileService = FileService.getInstance();
+    this.reportService = ReportService.getInstance();
   }
 
   /**
