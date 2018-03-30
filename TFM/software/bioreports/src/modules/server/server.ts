@@ -169,7 +169,8 @@ export class Server {
           }
       } catch (err) {
         console.error(`Error uploading file: ${err}`);
-        return res.status(500).send(err);
+        // return res.status(500).send(err);
+        return res.render('pags/error', {error: err});
       }
     });
   }
