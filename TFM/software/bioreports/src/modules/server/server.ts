@@ -13,6 +13,7 @@ import { SnpUtils } from '../utils/snp.utils';
 import { FileService } from '../repository/file.service';
 import { ReportService } from '../report/report.service';
 import { ETLService } from '../data-transform/etl.service';
+import { DateUtils } from '../utils/date.utils';
 
 /**
  * The server.
@@ -126,15 +127,25 @@ export class Server {
 
     // ejs test https://scotch.io/tutorials/use-ejs-to-template-your-node-application
     this.app.get('/uploads', function(req: express.Request, res: express.Response) {
-      const reportsPath = FileService.REPORTS_PATH;
-      const files = that.fileService.listFiles(reportsPath);
-      res.render('pages/uploadsList', {reportfiles: files});
+      try {
+        const uploadPath = FileService.UPLOAD_PATH;
+        const files = that.fileService.listFiles(uploadPath);
+        res.render('pages/uploadsList', {uploadfiles: files});
+      } catch (err) {
+        console.error(`Error showing uploaded  files page: ${err}`);
+        return res.render('pages/error', {error: err});
+      }
     });
 
     this.app.get('/reports', function(req: express.Request, res: express.Response) {
-      const reportsPath = FileService.REPORTS_PATH;
-      const files = that.fileService.listFiles(reportsPath);
-      res.render('pages/reportsList', {reportfiles: files});
+      try {
+        const reportsPath = FileService.REPORTS_PATH;
+        const files = that.fileService.listFiles(reportsPath);
+        res.render('pages/reportsList', {reportfiles: files});
+      } catch (err) {
+        console.error(`Error showing reports page: ${err}`);
+        return res.render('pages/error', {error: err});
+      }
     });
 
     // upload
@@ -153,7 +164,7 @@ export class Server {
       console.log('UPLOADING FILE...');
       try {
         const uploadsPath = FileService.UPLOAD_PATH;
-        const dateStr: string = dateFormat(Date.now(), 'yyyymmddHHMMss');
+        const dateStr: string = DateUtils.dateFormat(Date.now(), 'yyyymmddHHMMss');
         if (Object.keys(req.files).length === 0 && req.files.constructor === Object) {
           // the rest of parameters come in req.body
           const params: any = req.body;

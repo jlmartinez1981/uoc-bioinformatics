@@ -15,11 +15,11 @@
             Uploaded files are liste below.
         </p>
     </div>
-    
+
     <div class="contentInfo">
         <ul>
-                <% reportfiles.forEach(function(report) { %>
-                    <li><%= report.name %> - <%= report.date %></li>
+                <% uploadfiles.forEach(function(file) { %>
+                    <li><%= file.name %> - <%= file.date %></li>
                 <% }); %>
             </ul>
     </div>

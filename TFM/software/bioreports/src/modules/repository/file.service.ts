@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { DateUtils } from '../utils/date.utils';
 /**
  * FileService
  *
@@ -58,9 +59,12 @@ export class FileService {
     public listFiles(dirPath: string): Array<object> {
         // TODO list reports dir and list all files
         const files: Array<object> = new Array<object>();
-        files.push({name: 'file1', date: '20180330144900'},
-            {name: 'file2', date: '20180329154901'},
-            {name: 'file3', date: '20180328194902'});
+        fs.readdirSync(dirPath).forEach(file => {
+            console.log(file);
+            const fileDate: string = DateUtils.extractDateFromFilename(file);
+            files.push({name: file, date: fileDate});
+        });
+
         return files;
     }
 
