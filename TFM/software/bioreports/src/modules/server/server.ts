@@ -121,14 +121,20 @@ export class Server {
 
     // index
     this.app.get('/', function(req: express.Request, res: express.Response) {
-      res.render('pages/index');
+      res.render('pages/index', {uploadResult: undefined});
     });
 
     // ejs test https://scotch.io/tutorials/use-ejs-to-template-your-node-application
+    this.app.get('/uploads', function(req: express.Request, res: express.Response) {
+      const reportsPath = FileService.REPORTS_PATH;
+      const files = that.fileService.listFiles(reportsPath);
+      res.render('pages/uploadsList', {reportfiles: files});
+    });
+
     this.app.get('/reports', function(req: express.Request, res: express.Response) {
       const reportsPath = FileService.REPORTS_PATH;
       const files = that.fileService.listFiles(reportsPath);
-      res.render('pages/reports', {reportfiles: files});
+      res.render('pages/reportsList', {reportfiles: files});
     });
 
     // upload
@@ -143,7 +149,7 @@ export class Server {
     req.files.foo.truncated: A boolean that represents if the file is over the size limit
     */
     // upload
-    this.app.post('/upload', async function(req, res, next) {
+    this.app.post('/uploadFile', async function(req, res, next) {
       console.log('UPLOADING FILE...');
       try {
         const uploadsPath = FileService.UPLOAD_PATH;
@@ -161,7 +167,8 @@ export class Server {
           const result = true;
 
           if (result == true) {
-            res.render('pages/results', {uploadResult: 'SNP text uploaded!'});
+            res.render('pages/index', {uploadResult: 'SNP text uploaded!'});
+            // res.render('pages/results', {uploadResult: 'SNP text uploaded!'});
           }
         } else {
           // Save file if it exists
@@ -199,8 +206,8 @@ export class Server {
                 }).catch((err: any) => {
                   console.error(`Error transforming file ${filePath}: ${err}`);
                 });
-
-              res.render('pages/results', {uploadResult: `${fileName} SNP file uploaded!`});
+              res.render('pages/index', {uploadResult: `${fileName}`});
+              // res.render('pages/results', {uploadResult: `${fileName} SNP file uploaded!`});
             }).catch((err: any) => {
               console.error(`Error copying file to ${filePath}: ${err}`);
               return res.render('pages/error', {error: err});

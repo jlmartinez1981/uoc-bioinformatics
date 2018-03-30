@@ -8,18 +8,20 @@
         <% include ../partials/header %>
     </header>
     <h1>Bioreports</h1>
-    <h2>Error ocurred</h2>
+    <h2>Uploaded files list</h2>
 
-    <div class="alert alert-danger">
+    <div class="alert alert-info">
         <p>
-            <strong>Error:</strong> <%= error %>
+            Uploaded files are liste below.
         </p>
     </div>
-
+    
     <div class="contentInfo">
-        <p>
-            Please contact system administrator.
-        </p>
+        <ul>
+                <% reportfiles.forEach(function(report) { %>
+                    <li><%= report.name %> - <%= report.date %></li>
+                <% }); %>
+            </ul>
     </div>
     <footer>
         <% include ../partials/footer %>

@@ -10,11 +10,19 @@
     <h1>Hello from Bioreports</h1>
     <h2>From this site you will be able to generate genetic reports from yor SNPs raw data.</h2>
 
+    <%if (uploadResult) { %>
+        <div class="alert alert-success">
+            <p>
+                <strong>File uploaded successfully!: </strong> <%= uploadResult %>
+            </p>
+        </div>
+    <% } %>
+
     <div class="contentInfo">
         <p>
             Please either choose a SNP raw data file or type your data in the text area and press Upload.
         </p>
-        <form action="/upload" enctype="multipart/form-data" method="post" id="uploadForm">
+        <form action="/uploadFile" enctype="multipart/form-data" method="post" id="uploadForm">
             <div class="form-group">
                 <label for="filenameInput">Filename: </label>
                 <input type="text" name="fileName" id="filenameInput" placeholder="file name">    

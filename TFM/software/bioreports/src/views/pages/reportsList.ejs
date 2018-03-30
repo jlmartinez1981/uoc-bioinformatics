@@ -10,7 +10,14 @@
     <h1>Bioreports</h1>
     <h2>Report list</h2>
 
+    <div class="alert alert-info">
+        <p>
+            Generated reports are liste below.
+        </p>
+    </div>
+
     <div class="contentInfo">
+        
         <ul>
                 <% reportfiles.forEach(function(report) { %>
                     <li><%= report.name %> - <%= report.date %></li>
