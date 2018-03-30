@@ -30,14 +30,18 @@ export class ETLService {
         return new ETLService();
     }
 
-    public transform(): Promise<any> {
+    public transform(filePath: string, fileName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             // do something asynchronous which eventually calls either:
             //
             //   resolve(someValue); // fulfilled
             // or
             //   reject("failure reason"); // rejected
-            resolve(true);
+            const etlFileName = fileName;
+            setTimeout(function() {
+                resolve('upload_processed/'.concat(etlFileName));
+              }, 250);
+            // resolve('upload_processed/'.concat(etlFileName));
         });
     }
 }
