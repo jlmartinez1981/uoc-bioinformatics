@@ -150,7 +150,7 @@ export class Server {
           const result = true;
 
           if (result == true) {
-            res.send('SNP text uploaded!');
+            res.render('pages/results', {uploadResult: 'SNP text uploaded!'});
           }
         } else {
           // Save file if it exists
@@ -164,7 +164,7 @@ export class Server {
               console.error(`Error copying file to ${filePath}: ${err}`);
               return res.status(500).send(err);
             }
-            res.send('File uploaded!');
+            res.render('pages/results', {uploadResult: 'SNP file uploaded!'});
             });
           }
       } catch (err) {
