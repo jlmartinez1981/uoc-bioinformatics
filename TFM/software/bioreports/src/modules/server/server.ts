@@ -6,7 +6,6 @@ import * as path from 'path';
 import * as errorHandler from 'errorhandler';
 import * as methodOverride from 'method-override';
 import * as compression from 'compression'; // compresses requests
-// import * as formidable from 'formidable';
 import * as fs from 'fs';
 import * as fileUpload from 'express-fileupload';
 import * as dateFormat from 'dateformat';
@@ -112,6 +111,7 @@ export class Server {
    * @method api
    */
   public routes() {
+    const that = this;
     // static  files mapped to a virtual directory
     this.app.use('/static', express.static(path.join(__dirname, '../../public')));
 
@@ -121,9 +121,10 @@ export class Server {
     });
 
     // ejs test https://scotch.io/tutorials/use-ejs-to-template-your-node-application
-    this.app.get('/test', function(req: express.Request, res: express.Response) {
-      // res.render(path.join(__dirname + '../../../views/test'));
-      res.render('pages/test', {greeting: 'Hello world!'});
+    this.app.get('/reports', function(req: express.Request, res: express.Response) {
+      const reportsPath = FileService.REPORTS_PATH;
+      const files = that.fileService.listFiles(reportsPath);
+      res.render('pages/reports', {reportfiles: files});
     });
 
     // upload
@@ -141,11 +142,7 @@ export class Server {
     this.app.post('/upload', async function(req, res, next) {
       console.log('UPLOADING FILE...');
       try {
-        const uploadsPath = path.join(__dirname, '../../uploads');
-        // create dir if does not exist
-        if (!fs.existsSync(uploadsPath)) {
-          fs.mkdirSync(uploadsPath);
-        }
+        const uploadsPath = FileService.UPLOAD_PATH;
 
         if (Object.keys(req.files).length === 0 && req.files.constructor === Object) {
           // the rest of parameters come in req.body

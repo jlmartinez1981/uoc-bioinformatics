@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+import * as path from 'path';
 /**
  * FileService
  *
@@ -7,6 +9,11 @@
 export class FileService {
 
     private static instance: FileService;
+    public static APP_PATH: string = path.join(process.env.USERPROFILE, 'bioreports');
+    public static REPORTS_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/reports');
+    public static UPLOAD_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/upload');
+    public static PROCESSED_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/upload_processed');
+
     /**
      * Constructor.
      *
@@ -17,6 +24,11 @@ export class FileService {
         if (FileService.instance) {
             throw 'FileService instance already exists. Please use FileService.getInstance()';
         }
+        // init paths
+        this.createDirIfnotExists(FileService.APP_PATH);
+        this.createDirIfnotExists(FileService.REPORTS_PATH);
+        this.createDirIfnotExists(FileService.UPLOAD_PATH);
+        this.createDirIfnotExists(FileService.PROCESSED_PATH);
     }
 
     public static getInstance(): FileService {
@@ -43,8 +55,18 @@ export class FileService {
         // TODO readFile and return the data
     }
 
-    public listFiles(dirPath: string): Array<string> {
-        const files: Array<string> = new Array<string>();
+    public listFiles(dirPath: string): Array<object> {
+        // TODO list reports dir and list all files
+        const files: Array<object> = new Array<object>();
+        files.push({name: 'file1', date: '20180330144900'},
+            {name: 'file2', date: '20180329154901'},
+            {name: 'file3', date: '20180328194902'});
         return files;
+    }
+
+    public createDirIfnotExists (dirPath: string) {
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
+          }
     }
 }
