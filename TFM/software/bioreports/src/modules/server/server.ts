@@ -168,19 +168,17 @@ export class Server {
         if (Object.keys(req.files).length === 0 && req.files.constructor === Object) {
           // the rest of parameters come in req.body
           const params: any = req.body;
+          let snpFileName: string = undefined;
+          let storageName: string = undefined;
           if (SnpUtils.checkSNPText(params.snpText)) {
             // TODO save the file with title|anomymous-date.txt
-            const snpFileName: string = (params.fileName !== '' ? params.fileName : 'anonymous');
-            const storageName = dateStr.concat('-', snpFileName);
-            console.log('SnpFileName: ', storageName);
+            snpFileName = (params.fileName !== '' ? params.fileName : 'anonymous');
+            storageName = dateStr.concat('-', snpFileName, '.txt');
+            const storagePath = path.join(uploadsPath, storageName);
+            console.log('SnpFileName: ', storagePath);
+            that.fileService.saveFile(storagePath, params.snpText);
           }
-          // TODO create file and save it
-          const result = true;
-
-          if (result == true) {
-            res.render('pages/index', {uploadResult: 'SNP text uploaded!'});
-            // res.render('pages/results', {uploadResult: 'SNP text uploaded!'});
-          }
+          res.render('pages/index', {uploadResult: storageName});
         } else {
           // Save file if it exists
           // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file

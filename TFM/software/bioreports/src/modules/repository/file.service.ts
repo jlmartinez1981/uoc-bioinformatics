@@ -44,9 +44,8 @@ export class FileService {
      * @param filePath
      * @param fileContents
      */
-    public saveFile(filePath: string, fileContents: any): boolean {
-        // TODO save file
-        return false;
+    public saveFile(filePath: string, fileContents: string): void {
+        fs.writeFileSync(filePath, fileContents);
     }
 
     /**
