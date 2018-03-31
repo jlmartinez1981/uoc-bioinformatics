@@ -1,4 +1,4 @@
-import { FileService } from '../repository/file.service';
+import { FileService } from '../../repository/file.service';
 
 /**
  * ETLService

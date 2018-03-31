@@ -1,5 +1,4 @@
 import * as express from 'express';
-// import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 import * as path from 'path';
@@ -13,6 +12,7 @@ import { SnpUtils } from '../utils/snp.utils';
 import { FileService } from '../repository/file.service';
 import { DateUtils } from '../utils/date.utils';
 import { PipelineService } from '../pipeline/pipeline.service';
+// import { appLogger } from '../logger/log4js.logger';
 
 /**
  * The server.

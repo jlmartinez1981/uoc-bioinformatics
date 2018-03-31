@@ -61,6 +61,7 @@
     "express-fileupload": "^0.4.0",
     "express-handlebars": "^3.0.0",
     "formidable": "^1.2.1",
+    "log4js": "^2.5.3",
     "method-override": "^2.3.10",
     "morgan": "^1.9.0",
     "path": "^0.12.7",

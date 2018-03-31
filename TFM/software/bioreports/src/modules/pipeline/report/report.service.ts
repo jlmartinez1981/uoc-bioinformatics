@@ -1,7 +1,7 @@
 import { OmicService } from '../data-access/omic.service';
-import { FileService } from '../repository/file.service';
+import { FileService } from '../../repository/file.service';
 import { ETLService } from '../data-transform/etl.service';
-import { ExternalProcess } from '../utils/external.process';
+import { ExternalProcess } from '../../utils/external.process';
 import * as path from 'path';
 
 /**
