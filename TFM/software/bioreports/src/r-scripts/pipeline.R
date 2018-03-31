@@ -5,7 +5,7 @@ setwd(workingDirectory);
 
 #clean variables
 #remove(etl)
-#Rscript --vanilla pipeline.R 'C:\Users\jlmartinez\bioreports\upload\20180331212048-anonymous.txt' 'C:\Users\jlmartinez\bioreports\upload_processed\20180331212048-anonymous.txt'
+#Rscript --vanilla pipeline.R 'C:\Users\jlmartinez\bioreports\upload\test.txt' 'C:\Users\jlmartinez\bioreports\upload_processed\test.txt'
 # Quotes can be suppressed in the output
 if(!exists("etl", mode="function")){
   source("etl.R")

@@ -193,44 +193,16 @@ export class Server {
           const fileName = dateStr.concat('-', snpFile.name);
           const filePath = path.join(uploadsPath, fileName);
           // Use the mv() method to place the file somewhere on your server
-          const fileUploadPromise = snpFile.mv(filePath); /*, function(err: any) {
-            if (err) {
-              console.error(`Error copying file to ${filePath}: ${err}`);
-              return res.status(500).send(err);
-            }
-            res.render('pages/results', {uploadResult: `${fileName} SNP file uploaded!`});
-            });*/
-            fileUploadPromise.then((result: any) => {
-              console.log(`${fileName} file uploaded to ${filePath}`);
-              res.render('pages/index', {uploadResult: `${fileName}`});
-              // TODO make it non blocking
-              // https://medium.freecodecamp.org/node-js-child-processes-everything-you-need-to-know-e69498fe970a
-              that.pipeline.backgroundReportGenerationProcess(uploadsPath, fileName);
-              /*
-              console.log(`Starting ETL process for file ${fileName}`);
-
-              const transformedPromise = that.etlService.transform(filePath, fileName);
-              transformedPromise.then((result: any) => {
-                console.log(`${filePath} transformed to ${result}`);
-                console.log(`Starting report generation for file ${fileName}`);
-                // TODO generate report
-                const reportPromise = that.reportService.generateReport(result, fileName);
-                reportPromise.then((result: any) => {
-                  console.log(`${filePath} report generated for file ${result}`);
-                  }).catch((err: any) => {
-                    console.error(`Error transforming file ${filePath}: ${err}`);
-                  });
-
-                }).catch((err: any) => {
-                  console.error(`Error transforming file ${filePath}: ${err}`);
-                });*/
-              // res.render('pages/index', {uploadResult: `${fileName}`});
-              // res.render('pages/results', {uploadResult: `${fileName} SNP file uploaded!`});
-            }).catch((err: any) => {
-              console.error(`Error uploading file to ${filePath}: ${err}`);
-              return res.render('pages/error', {error: err});
-            });
-          }
+          const fileUploadPromise = snpFile.mv(filePath);
+          fileUploadPromise.then((result: any) => {
+            console.log(`${fileName} file uploaded to ${filePath}`);
+            res.render('pages/index', {uploadResult: `${fileName}`});
+            that.pipeline.backgroundReportGenerationProcess(uploadsPath, fileName);
+          }).catch((err: any) => {
+            console.error(`Error uploading file to ${filePath}: ${err}`);
+            return res.render('pages/error', {error: err});
+          });
+        }
       } catch (err) {
         console.error(`Error uploading file: ${err}`);
         // return res.status(500).send(err);
