@@ -1,5 +1,9 @@
 import { ETLService } from './data-transform/etl.service';
 import { ReportService } from './report/report.service';
+import * as path from 'path';
+import { ExternalProcess } from '../utils/external.process';
+import { FileService } from '../repository/file.service';
+
 
 /**
  * PipelineService
@@ -33,22 +37,41 @@ export class PipelineService {
         return new PipelineService();
     }
 
-    public backgroundReportGenerationProcess(filePath: string, fileName: string): void {
-        console.log(`Starting ETL process for file ${fileName}`);
-
-        const transformedPromise = this.etlService.transform(filePath, fileName);
-        transformedPromise.then((result: any) => {
-          console.log(`${filePath}/${fileName} transformed to ${result}`);
-          console.log(`Starting report generation for file ${fileName}`);
-
-          const reportPromise = this.reportService.generateReport(result, fileName);
-          reportPromise.then((result: any) => {
-              console.log(`${filePath} report generated for file ${result}`);
-            }).catch((err: any) => {
-              console.error(`Error transforming file ${filePath}: ${err}`);
-              });
-          }).catch((err: any) => {
-            console.error(`Error transforming file ${filePath}: ${err}`);
+    public backgroundReportGenerationProcess(filePath: string, fileName: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const etlFileName = path.join(filePath, fileName);
+            const newFile = path.join(FileService.PROCESSED_PATH, fileName);
+            // console.log('TRANSFORMING TO: ', newFile);
+            console.log('EXECUTING PIPELINE TO: ', fileName);
+            const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};
+            const scriptPath = path.join(__dirname, '../../r-scripts', 'pipeline.R');
+            try {
+                const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
+                resolve(true);
+            } catch (err) {
+                reject(err);
+            }
         });
+        /*
+        console.log(`Starting ETL process for file ${fileName}`);
+        return new Promise((resolve, reject) => {
+            const transformedPromise = this.etlService.transform(filePath, fileName, trimSpaces);
+            transformedPromise.then((result: any) => {
+                console.log(`${filePath}/${fileName} transformed to ${result}`);
+                console.log(`Starting report generation for file ${fileName}`);
+
+                const reportPromise = this.reportService.generateReport(result, fileName);
+                reportPromise.then((result: any) => {
+                    console.log(`${filePath} report generated for file ${result}`);
+                    resolve(true);
+                    }).catch((err: any) => {
+                        console.error(`Error transforming file ${filePath}: ${err}`);
+                        reject(err);
+                    });
+                }).catch((err: any) => {
+                console.error(`Error transforming file ${filePath}: ${err}`);
+            });
+        });
+        */
       }
 }

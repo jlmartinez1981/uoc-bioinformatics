@@ -203,7 +203,9 @@ export class Server {
             fileUploadPromise.then((result: any) => {
               console.log(`${fileName} file uploaded to ${filePath}`);
               res.render('pages/index', {uploadResult: `${fileName}`});
-              that.pipeline.backgroundReportGenerationProcess(filePath, fileName);
+              // TODO make it non blocking
+              // https://medium.freecodecamp.org/node-js-child-processes-everything-you-need-to-know-e69498fe970a
+              that.pipeline.backgroundReportGenerationProcess(uploadsPath, fileName);
               /*
               console.log(`Starting ETL process for file ${fileName}`);
 

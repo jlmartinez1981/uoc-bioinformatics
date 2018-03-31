@@ -32,7 +32,7 @@ export class ETLService {
         return new ETLService();
     }
 
-    public transform(filePath: string, fileName: string): Promise<any> {
+    public transform(filePath: string, fileName: string, trimSpaces: boolean): Promise<any> {
         return new Promise((resolve, reject) => {
             // do something asynchronous which eventually calls either:
             //
@@ -42,7 +42,7 @@ export class ETLService {
             const etlFileName = path.join(filePath, fileName);
             const newFile = path.join(FileService.PROCESSED_PATH, fileName);
             console.log('TRANSFORMING TO: ', newFile);
-            const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};
+            const scriptData = {fileToWrite: newFile, fileToRead: etlFileName, trim: trimSpaces};
 
             const scriptPath = path.join(__dirname, '../../../r-scripts', 'etl.R');
             const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
