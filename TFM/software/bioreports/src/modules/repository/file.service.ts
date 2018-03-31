@@ -44,8 +44,15 @@ export class FileService {
      * @param filePath
      * @param fileContents
      */
-    public saveFile(filePath: string, fileContents: string): void {
-        fs.writeFileSync(filePath, fileContents);
+    public saveFile(filePath: string, fileContents: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            try {
+                fs.writeFileSync(filePath, fileContents);
+                resolve(true);
+            } catch (err) {
+                reject(err);
+            }
+        });
     }
 
     /**

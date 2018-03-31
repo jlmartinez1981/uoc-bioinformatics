@@ -1,3 +1,4 @@
+import * as R from 'r-script';
 /**
  * External process
  *
@@ -6,4 +7,23 @@
  */
 export class ExternalProcess {
 
+    public static executeRScript(scriptPath: string, scriptArgs: any): any {
+        const out = R(scriptPath)
+        .data({scriptArgs: scriptArgs}, 'hello world', 20, 'another param')
+        .callSync();
+
+        console.log(out);
+        return out;
+
+        // async
+        /*
+        R(scriptPath)
+        .data({df: {h: 'hello world'}, nGroups: 3, fxn: 'mean' })
+        .call(function(err, d) {
+            if (err)
+                throw err;
+            console.log(d);
+        });
+        */
+    }
 }

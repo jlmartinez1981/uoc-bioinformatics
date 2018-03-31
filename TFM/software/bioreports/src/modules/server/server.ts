@@ -11,9 +11,8 @@ import * as fileUpload from 'express-fileupload';
 import * as dateFormat from 'dateformat';
 import { SnpUtils } from '../utils/snp.utils';
 import { FileService } from '../repository/file.service';
-import { ReportService } from '../report/report.service';
-import { ETLService } from '../data-transform/etl.service';
 import { DateUtils } from '../utils/date.utils';
+import { PipelineService } from '../pipeline/pipeline.service';
 
 /**
  * The server.
@@ -24,8 +23,7 @@ export class Server {
 
   public app: express.Application;
   private fileService: FileService;
-  private reportService: ReportService;
-  private etlService: ETLService;
+  private pipeline: PipelineService;
 
   /**
    * Bootstrap the application.
@@ -63,8 +61,7 @@ export class Server {
 
   private initServices(): void {
     this.fileService = FileService.getInstance();
-    this.reportService = ReportService.getInstance();
-    this.etlService = ETLService.getInstance();
+    this.pipeline = PipelineService.getInstance();
   }
 
   /**
@@ -176,9 +173,16 @@ export class Server {
             storageName = dateStr.concat('-', snpFileName, '.txt');
             const storagePath = path.join(uploadsPath, storageName);
             console.log('SnpFileName: ', storagePath);
-            that.fileService.saveFile(storagePath, params.snpText);
+            const fileUploadPromise = that.fileService.saveFile(storagePath, params.snpText);
+            fileUploadPromise.then( (result) => {
+              console.log(`${storageName} file uploaded to ${storagePath}`);
+              res.render('pages/index', {uploadResult: storageName});
+              that.pipeline.backgroundReportGenerationProcess(uploadsPath, storageName);
+            }).catch(err => {
+              console.error(`Failed to upload file ${storagePath}: ${err}`);
+              return res.render('pages/error', {error: err});
+            });
           }
-          res.render('pages/index', {uploadResult: storageName});
         } else {
           // Save file if it exists
           // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
@@ -198,6 +202,9 @@ export class Server {
             });*/
             fileUploadPromise.then((result: any) => {
               console.log(`${fileName} file uploaded to ${filePath}`);
+              res.render('pages/index', {uploadResult: `${fileName}`});
+              that.pipeline.backgroundReportGenerationProcess(filePath, fileName);
+              /*
               console.log(`Starting ETL process for file ${fileName}`);
 
               const transformedPromise = that.etlService.transform(filePath, fileName);
@@ -214,11 +221,11 @@ export class Server {
 
                 }).catch((err: any) => {
                   console.error(`Error transforming file ${filePath}: ${err}`);
-                });
-              res.render('pages/index', {uploadResult: `${fileName}`});
+                });*/
+              // res.render('pages/index', {uploadResult: `${fileName}`});
               // res.render('pages/results', {uploadResult: `${fileName} SNP file uploaded!`});
             }).catch((err: any) => {
-              console.error(`Error copying file to ${filePath}: ${err}`);
+              console.error(`Error uploading file to ${filePath}: ${err}`);
               return res.render('pages/error', {error: err});
             });
           }

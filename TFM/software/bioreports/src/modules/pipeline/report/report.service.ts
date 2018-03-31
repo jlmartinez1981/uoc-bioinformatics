@@ -1,6 +1,8 @@
 import { OmicService } from '../data-access/omic.service';
 import { FileService } from '../repository/file.service';
 import { ETLService } from '../data-transform/etl.service';
+import { ExternalProcess } from '../utils/external.process';
+import * as path from 'path';
 
 /**
  * ReportService
@@ -42,11 +44,11 @@ export class ReportService {
             //   resolve(someValue); // fulfilled
             // or
             //   reject("failure reason"); // rejected
-            const reportFileName = fileName;
+            const scriptPath = path.join(__dirname, '../../r-scripts', 'helloworld.R');
+            const externalProcessResult = ExternalProcess.executeRScript(scriptPath, fileName);
             setTimeout(function() {
-                resolve('reports/'.concat(reportFileName));
+                resolve('reports/'.concat(fileName));
               }, 250);
-            // resolve('reports/'.concat(reportFileName));
         });
     }
 }

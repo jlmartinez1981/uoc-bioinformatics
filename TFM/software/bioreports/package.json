@@ -41,10 +41,10 @@
     "@types/method-override": "0.0.31",
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.4.7",
+    "@types/r-script": "0.0.1",
     "@types/shelljs": "^0.7.8",
     "compression": "^1.7.2",
     "dateformat": "^3.0.3",
-    "express": "^4.16.3",
     "shelljs": "^0.8.1",
     "ts-loader": "^4.0.1",
     "ts-node": "^5.0.1",
@@ -64,6 +64,7 @@
     "method-override": "^2.3.10",
     "morgan": "^1.9.0",
     "path": "^0.12.7",
+    "r-script": "0.0.3",
     "tar-pack": "^3.4.1"
   }
 }
