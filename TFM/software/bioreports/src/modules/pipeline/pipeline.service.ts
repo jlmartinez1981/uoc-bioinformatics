@@ -40,7 +40,7 @@ export class PipelineService {
     public backgroundReportGenerationProcess(filePath: string, fileName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const etlFileName = path.join(filePath, fileName);
-            const newFile = path.join(FileService.PROCESSED_PATH, fileName);
+            const newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
             // console.log('TRANSFORMING TO: ', newFile);
             console.log('EXECUTING PIPELINE TO: ', fileName);
             const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};

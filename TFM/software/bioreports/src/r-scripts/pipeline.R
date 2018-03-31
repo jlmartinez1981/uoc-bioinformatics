@@ -17,8 +17,9 @@ print(args[1], quote = FALSE)
 print(args[2], quote = FALSE)
 
 fileToRead <- args[1]
+fileToRead <- 'C:/Users/jlmartinez/bioreports/upload/test.txt'
 fileToWrite <- args[2]
-
+fileToWrite <- 'C:/Users/jlmartinez/bioreports/upload_processed/test.csv'
 etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
 etlRes
 
