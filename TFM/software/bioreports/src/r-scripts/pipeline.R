@@ -4,7 +4,8 @@ workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinform
 setwd(workingDirectory);
 
 #clean variables
-#remove(etl)
+rm(list = ls())
+
 #Rscript --vanilla pipeline.R 'C:\Users\jlmartinez\bioreports\upload\test.txt' 'C:\Users\jlmartinez\bioreports\upload_processed\test.txt'
 # Quotes can be suppressed in the output
 if(!exists("etl", mode="function")){
@@ -24,5 +25,5 @@ etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
 etlRes
 
 if(etlRes){
-  
+  rawData <- read.csv(file=fileToWrite, header=TRUE, sep=" ")
 }

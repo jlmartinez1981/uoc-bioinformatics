@@ -13,5 +13,6 @@ etl <- function (fileToRead, fileToWrite){
             write(line, file = fileToWrite, append = TRUE)
         } 
     }
+    close(con)
     return(TRUE);
 }
