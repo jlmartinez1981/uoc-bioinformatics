@@ -10,7 +10,8 @@ rm(list = ls())
 # Quotes can be suppressed in the output
 if(!exists("etl", mode="function")){
   source("etl.R")
-} 
+}
+source("utils.R")
 
 args = commandArgs(trailingOnly=TRUE)
 
@@ -26,4 +27,9 @@ etlRes
 
 if(etlRes){
   rawData <- read.csv(file=fileToWrite, header=TRUE, sep=" ")
+  # 1 = rows 2 = columns
+  chrPos <- apply(rawData, 1, extractChrPos)
+  print(chrPos)
+  rsId <- apply(rawData, 1, extractRsId)
+  print(rsId)
 }
