@@ -44,7 +44,7 @@ export class ReportService {
             //   resolve(someValue); // fulfilled
             // or
             //   reject("failure reason"); // rejected
-            const scriptPath = path.join(__dirname, '../../r-scripts', 'helloworld.R');
+            const scriptPath = path.join(__dirname, '../../../r-scripts', 'helloworld.R');
             const externalProcessResult = ExternalProcess.executeRScript(scriptPath, fileName);
             setTimeout(function() {
                 resolve('reports/'.concat(fileName));

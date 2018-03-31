@@ -22,6 +22,8 @@ export class PipelineService {
         if (PipelineService.instance) {
             throw 'PipelineService instance already exists. Please use PipelineService.getInstance()';
         }
+        this.etlService = ETLService.getInstance();
+        this.reportService = ReportService.getInstance();
     }
 
     public static getInstance(): PipelineService {
@@ -36,7 +38,7 @@ export class PipelineService {
 
         const transformedPromise = this.etlService.transform(filePath, fileName);
         transformedPromise.then((result: any) => {
-          console.log(`${filePath} transformed to ${result}`);
+          console.log(`${filePath}/${fileName} transformed to ${result}`);
           console.log(`Starting report generation for file ${fileName}`);
 
           const reportPromise = this.reportService.generateReport(result, fileName);

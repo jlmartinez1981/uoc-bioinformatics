@@ -9,7 +9,7 @@ export class ExternalProcess {
 
     public static executeRScript(scriptPath: string, scriptArgs: any): any {
         const out = R(scriptPath)
-        .data({scriptArgs: scriptArgs}, 'hello world', 20, 'another param')
+        .data({scriptArgs: scriptArgs})
         .callSync();
 
         console.log(out);

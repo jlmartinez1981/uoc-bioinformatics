@@ -1,4 +1,6 @@
 import { FileService } from '../../repository/file.service';
+import * as path from 'path';
+import { ExternalProcess } from '../../utils/external.process';
 
 /**
  * ETLService
@@ -37,7 +39,13 @@ export class ETLService {
             //   resolve(someValue); // fulfilled
             // or
             //   reject("failure reason"); // rejected
-            const etlFileName = fileName;
+            const etlFileName = path.join(filePath, fileName);
+            const newFile = path.join(FileService.PROCESSED_PATH, fileName);
+            console.log('TRANSFORMING TO: ', newFile);
+            const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};
+
+            const scriptPath = path.join(__dirname, '../../../r-scripts', 'etl.R');
+            const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
             setTimeout(function() {
                 resolve('upload_processed/'.concat(etlFileName));
               }, 250);
