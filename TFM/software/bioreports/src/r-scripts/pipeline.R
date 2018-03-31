@@ -4,7 +4,8 @@ workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinform
 setwd(workingDirectory);
 
 #clean variables
-remove(etl)
+#remove(etl)
+#Rscript --vanilla pipeline.R 'C:\Users\jlmartinez\bioreports\upload\20180331212048-anonymous.txt' 'C:\Users\jlmartinez\bioreports\upload_processed\20180331212048-anonymous.txt'
 # Quotes can be suppressed in the output
 if(!exists("etl", mode="function")){
   source("etl.R")
@@ -12,13 +13,15 @@ if(!exists("etl", mode="function")){
 
 args = commandArgs(trailingOnly=TRUE)
 
-print(args, quote = FALSE)
 print(args[1], quote = FALSE)
 print(args[2], quote = FALSE)
 
-etlRes <- etl()
+fileToRead <- args[1]
+fileToWrite <- args[2]
+
+etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
 etlRes
 
-#for (i in 0:100){
-#  print(paste("The year is", i))
-#}
+if(etlRes){
+  
+}
