@@ -9,3 +9,5 @@
 #install entrez utils
 install.packages("reutils")
 install.packages("rentrez")
+#install.packages("Hmisc")
+install.packages("stringr")

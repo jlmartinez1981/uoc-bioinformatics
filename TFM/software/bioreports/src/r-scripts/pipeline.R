@@ -7,14 +7,16 @@ setwd(workingDirectory);
 rm(list = ls())
 
 #Rscript --vanilla pipeline.R 'C:\Users\jlmartinez\bioreports\upload\test.txt' 'C:\Users\jlmartinez\bioreports\upload_processed\test.txt'
-# Quotes can be suppressed in the output
+# script con procesos de transformación de datos
 if(!exists("etl", mode="function")){
   source("etl.R")
 }
+# script con funciones de consulta a entrez
+source("dbSNP.R")
 source("utils.R")
 
 args = commandArgs(trailingOnly=TRUE)
-
+# Quotes can be suppressed in the output
 print(args[1], quote = FALSE)
 print(args[2], quote = FALSE)
 
@@ -30,6 +32,9 @@ if(etlRes){
   # 1 = rows 2 = columns
   chrPos <- apply(rawData, 1, extractChrPos)
   print(chrPos)
-  rsId <- apply(rawData, 1, extractRsId)
-  print(rsId)
+  rsIds <- apply(rawData, 1, extractRsId)
+  for(rsId in rsIds)
+    print(rsId)
+  
+  #obtain data
 }
