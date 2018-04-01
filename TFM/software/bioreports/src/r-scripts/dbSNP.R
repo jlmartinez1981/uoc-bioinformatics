@@ -3,7 +3,7 @@
 library(rentrez);
 # https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html
 # https://www.ncbi.nlm.nih.gov
-
+source("utils.R")
 # available databases rentrez
 entrez_dbs()
 # db links to snp db
@@ -48,10 +48,20 @@ if(is.null(clinvar_links$links$snp_clinvar)){
   sprintf('NO CLINVAR LINKS for: %s', rs_id)
 }
 
-# print('CONTINUE EXECUTION')
 #rs429358
 snp_summary <- entrez_summary(db='snp',id = snp_search$ids)
+df <- data.frame(matrix(unlist(snp_summary), nrow=length(snp_summary), byrow=T),stringsAsFactors=FALSE)
+# column names (2,4,9,10,37)
+snp_df <- df[,c(2,4,9,10,37)]
+snp_colnames <- c("snp_id","allele_origin", "clinical_significance", "gene_name", "chrpos")
+colnames(snp_df) <- snp_colnames
+#remove duplicated rows https://stats.stackexchange.com/questions/6759/removing-duplicated-rows-data-frame-in-r
+snp_df <- snp_df[!duplicated(snp_df),]
+
 # TODO extract snp report data
+#snp_data <-  lapply(snp_summary, extractSNPData, params = 'outputfile');
+# convert to data frame
+#df <- data.frame(matrix(unlist(snp_data), nrow=length(snp_data), byrow=T),stringsAsFactors=FALSE)
 
 #if id = null, error, Error: Must specify either (not both) 'id' or 'web_history' arguments
 clinvar_summary <- entrez_summary(db='clinvar',id = clinvar_links$links$snp_clinvar)
