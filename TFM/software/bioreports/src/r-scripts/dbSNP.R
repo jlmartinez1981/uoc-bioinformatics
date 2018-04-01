@@ -67,11 +67,19 @@ snp_df <- snp_df[!duplicated(snp_df),]
 clinvar_summary <- entrez_summary(db='clinvar',id = clinvar_links$links$snp_clinvar)
 #entrez_fetch(db='snp',id = snp_search$ids[3], rettype = 'xml')
 
+#get uids for querying OMIM
+clinvar_uids <- extract_from_esummary(clinvar_summary, c("uid"))
+clinvar_uids <- unname(clinvar_uids)
+
 # 441269
-omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_summary[[1]]$uid, db='omim')
+#omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_summary[[3]]$uid, db='omim')
+omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_uids, db='omim')
 omim_summary <- entrez_summary(db='omim',id = omim_links$links$clinvar_omim)
 #omim_summary
 
+diseases <- extract_from_esummary(omim_summary, c("title"))
+diseases <- unname(diseases)
+diseases
 #reutils
 #pmid <- esearch("1:82154", "snp")
 #pmid
