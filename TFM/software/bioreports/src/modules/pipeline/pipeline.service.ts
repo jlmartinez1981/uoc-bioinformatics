@@ -43,8 +43,9 @@ export class PipelineService {
                 case '1':
                     const etlFileName = path.join(filePath, fileName);
                     const newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
+                    const reportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
                     console.log('EXECUTING DISEASE PIPELINE TO: ', fileName);
-                    const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};
+                    const scriptData = {fileToWrite: newFile, fileToRead: etlFileName, reportFile: reportFileName};
                     const scriptPath = path.join(__dirname, '../../r-scripts', 'pipeline-test.R');
                     try {
                         const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);

@@ -45,8 +45,8 @@ data_df <- data.frame(snp_id=character(),
 tuple_df <- cbind(c(9,1,19,9,17,11),
                   c(117713024,82154, 44908684,117713324,39895095,67585218))
 
-tuple_df <- cbind(c(6),
-                  c(149400554))
+tuple_df <- cbind(c(6,19),
+                  c(149400554, 44908684))
 colnames(tuple_df) <- c("chr_id", "chr_pos")
 
 for(i in 1:nrow(tuple_df)){
@@ -63,3 +63,7 @@ for(i in 1:nrow(tuple_df)){
 data_df
 
 # TODO save into reports folder
+fileToReport <- 'C:/Users/jlmartinez/bioreports/reports/test.csv'
+# http://rprogramming.net/write-csv-in-r/
+cat(sprintf('SAVING REPORT TO: %s \n', fileToReport))
+write.csv(data_df, file = fileToReport,row.names=FALSE)

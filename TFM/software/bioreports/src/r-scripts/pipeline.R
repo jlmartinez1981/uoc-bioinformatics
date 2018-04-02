@@ -21,11 +21,10 @@ print(args[1], quote = FALSE)
 print(args[2], quote = FALSE)
 
 fileToRead <- args[1]
-fileToRead <- 'C:/Users/jlmartinez/bioreports/upload/test.txt'
 fileToWrite <- args[2]
-fileToWrite <- 'C:/Users/jlmartinez/bioreports/upload_processed/test.csv'
-etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
+fileToReport <- args[3]
 
+etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
 if(etlRes){
   rawData <- read.csv(file=fileToWrite, header=TRUE, sep=" ")
   tuple_df <- cbind(rawData[,2], rawData[,3])
@@ -53,5 +52,6 @@ if(etlRes){
   }
   # pass data to nodeJS
   data_df
-  # TODO save into reports folder
+  #save into reports folder
+  write.csv(data_df, file = fileToReport,row.names=FALSE)
 }
