@@ -157,6 +157,12 @@ export class Server {
             .fromFile(reportsPath)
             .on('json', ( json: any ) => { // this func will be called 3 times
               console.log(json);
+              if (json.diseases) {
+                let diseasesArray: Array<string> = new Array<string>();
+                // const dis: any = json.diseases;
+                diseasesArray = json.diseases.split('#');
+                json.diseases = diseasesArray;
+              }
               details.push(json);
         })
         .on('done', async () => {
