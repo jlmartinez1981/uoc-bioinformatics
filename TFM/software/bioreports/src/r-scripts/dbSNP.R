@@ -29,13 +29,21 @@ disease_data_from_snp <- function (chr, pos){
   colnames(snp_df) <- snp_colnames
   #remove duplicated rows https://stats.stackexchange.com/questions/6759/removing-duplicated-rows-data-frame-in-r
   snp_df <- snp_df[!duplicated(snp_df),]
-  
+
   #if id = null, error, Error: Must specify either (not both) 'id' or 'web_history' arguments
   clinvar_summary <- entrez_summary(db='clinvar',id = clinvar_links$links$snp_clinvar)
   
   #get uids for querying OMIM
   clinvar_uids <- extract_from_esummary(clinvar_summary, c("uid"))
   clinvar_uids <- unname(clinvar_uids)
+
+  clinvar_clinical <- extract_from_esummary(clinvar_summary, c("clinical_significance"))
+  # add clinical_significance_clinvar
+  if(is.null(clinvar_clinical$description)){
+    snp_df$clinical_significance_clinvar <- NA  
+  }else{
+    snp_df$clinical_significance_clinvar <- clinvar_clinical$description  
+  }
   
   omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_uids, db='omim')
   if(is.null(omim_links$links$clinvar_omim)){

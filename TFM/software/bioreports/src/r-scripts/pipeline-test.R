@@ -30,6 +30,7 @@ data_df <- data.frame(snp_id=character(),
                       clinical_significance=character(),
                       gene_name=character(),
                       chrpos=character(),
+                      clinical_significance=character(),
                       diseases=character(),
                       stringsAsFactors=FALSE)
 
@@ -66,4 +67,4 @@ data_df
 fileToReport <- 'C:/Users/jlmartinez/bioreports/reports/test.csv'
 # http://rprogramming.net/write-csv-in-r/
 cat(sprintf('SAVING REPORT TO: %s \n', fileToReport))
-write.csv(data_df, file = fileToReport,row.names=FALSE)
+write.csv(data_df, file = fileToReport,row.names=FALSE, na = '')

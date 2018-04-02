@@ -36,6 +36,7 @@ if(etlRes){
                         clinical_significance=character(),
                         gene_name=character(),
                         chrpos=character(),
+                        clinical_significance=character(),
                         diseases=character(),
                         stringsAsFactors=FALSE)
   
@@ -53,5 +54,5 @@ if(etlRes){
   # pass data to nodeJS
   data_df
   #save into reports folder
-  write.csv(data_df, file = fileToReport,row.names=FALSE)
+  write.csv(data_df, file = fileToReport,row.names=FALSE, na = '')
 }
