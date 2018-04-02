@@ -155,7 +155,7 @@ export class Server {
         const csv = csvToJson;
         csv({noheader: false})
             .fromFile(reportsPath)
-            .on('json', ( json: any ) => { // this func will be called 3 times
+            .on('json', ( json: any ) => {
               console.log(json);
               if (json.diseases) {
                 let diseasesArray: Array<string> = new Array<string>();
