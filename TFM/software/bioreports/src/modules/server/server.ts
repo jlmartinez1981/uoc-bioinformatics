@@ -13,6 +13,7 @@ import { FileService } from '../repository/file.service';
 import { DateUtils } from '../utils/date.utils';
 import { PipelineService } from '../pipeline/pipeline.service';
 // import { appLogger } from '../logger/log4js.logger';
+import * as csvToJson from 'csvtojson';
 
 /**
  * The server.
@@ -141,6 +142,31 @@ export class Server {
         res.render('pages/reportsList', {reportfiles: files});
       } catch (err) {
         console.error(`Error showing reports page: ${err}`);
+        return res.render('pages/error', {error: err});
+      }
+    });
+
+    this.app.get('/details', function(req: express.Request, res: express.Response) {
+      const report: any = {fileName: req.query.report, report: undefined };
+      const details: Array<object> = new Array<object>();
+      const reportsPath = path.join(FileService.REPORTS_PATH, req.query.report);
+      try {
+        console.log(`REPORT ${reportsPath}`);
+        const csv = csvToJson;
+        csv({noheader: false})
+            .fromFile(reportsPath)
+            .on('json', ( json: any ) => { // this func will be called 3 times
+              console.log(json);
+              details.push(json);
+        })
+        .on('done', async () => {
+            console.log(`END REPORT ${reportsPath}`);
+            report['report'] = details;
+            res.render('pages/details', {details: report});
+        });
+
+      } catch (err) {
+        console.error(`Error showing reports page for ${reportsPath}: ${err}`);
         return res.render('pages/error', {error: err});
       }
     });

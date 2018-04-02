@@ -55,15 +55,7 @@ export class FileService {
         });
     }
 
-    /**
-     *
-     */
-    public getFile(): void {
-        // TODO readFile and return the data
-    }
-
     public listFiles(dirPath: string): Array<object> {
-        // TODO list reports dir and list all files
         const files: Array<object> = new Array<object>();
         fs.readdirSync(dirPath).forEach(file => {
             console.log(file);

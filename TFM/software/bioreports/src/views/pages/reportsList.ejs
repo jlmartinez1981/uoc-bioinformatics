@@ -19,10 +19,10 @@
     <div class="contentInfo">
         
         <ul>
-                <% reportfiles.forEach(function(report) { %>
-                    <li><%= report.name %> - <%= report.date %></li>
-                <% }); %>
-            </ul>
+            <% reportfiles.forEach(function(report) { %>
+                <li><a href="/details?report=<%= report.name %>"><%= report.name %> - <%= report.date %></a></li>
+            <% }); %>
+        </ul>
     </div>
     <footer>
         <% include ../partials/footer %>
