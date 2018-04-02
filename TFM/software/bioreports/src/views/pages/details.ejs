@@ -34,8 +34,21 @@
                     <td><%= line.gene_name %></td>
                     <td><%= line.chrpos %></td>
                     <td><%= line.allele_origin %></td>
-                    <td><%= line.clinical_significance %></td>
-                    <td><%= line.diseases %></td>
+                    <td>
+                        <ul>
+                            <li><%= line.clinical_significance %></li>
+                            <% if(line.clinical_significance_clinvar !== '') {%>
+                                <li><%= line.clinical_significance_clinvar %></li>
+                            <% } %>    
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <% line.diseases.forEach(function(dis) { %>
+                                <li><%= dis %></li>
+                            <% }); %>    
+                        </ul>
+                    </td>
             <% }); %>
                 </tr>
             </tbody>
