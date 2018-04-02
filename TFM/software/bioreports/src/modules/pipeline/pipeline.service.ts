@@ -44,7 +44,7 @@ export class PipelineService {
             // console.log('TRANSFORMING TO: ', newFile);
             console.log('EXECUTING PIPELINE TO: ', fileName);
             const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};
-            const scriptPath = path.join(__dirname, '../../r-scripts', 'pipeline.R');
+            const scriptPath = path.join(__dirname, '../../r-scripts', 'pipeline-test.R');
             try {
                 const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
                 resolve(true);

@@ -60,4 +60,6 @@ for(i in 1:nrow(tuple_df)){
     }
   }  
 }
-str(data_df)
+data_df
+
+# TODO save into reports folder

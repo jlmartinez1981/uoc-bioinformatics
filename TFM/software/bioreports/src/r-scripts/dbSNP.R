@@ -37,8 +37,6 @@ disease_data_from_snp <- function (chr, pos){
   clinvar_uids <- extract_from_esummary(clinvar_summary, c("uid"))
   clinvar_uids <- unname(clinvar_uids)
   
-  # 441269
-  #omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_summary[[3]]$uid, db='omim')
   omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_uids, db='omim')
   if(is.null(omim_links$links$clinvar_omim)){
     sprintf('NO OMIM LINKS for: %s:%s', chr, pos)

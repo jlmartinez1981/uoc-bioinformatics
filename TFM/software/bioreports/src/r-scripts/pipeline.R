@@ -25,35 +25,33 @@ fileToRead <- 'C:/Users/jlmartinez/bioreports/upload/test.txt'
 fileToWrite <- args[2]
 fileToWrite <- 'C:/Users/jlmartinez/bioreports/upload_processed/test.csv'
 etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
-etlRes
 
 if(etlRes){
   rawData <- read.csv(file=fileToWrite, header=TRUE, sep=" ")
-  # 1 = rows 2 = columns
-  chrPos <- apply(rawData, 1, extractChrPos)
-  print(chrPos)
-  rsIds <- apply(rawData, 1, extractRsId)
-  for(rsId in rsIds)
-    print(rsId)
+  tuple_df <- cbind(rawData[,2], rawData[,3])
+  colnames(tuple_df) <- c("chr_id", "chr_pos")
   
   #create empty dataframe https://stackoverflow.com/questions/10689055/create-an-empty-data-frame
   data_df <- data.frame(snp_id=character(),
-                   allele_origin=character(), 
-                   clinical_significance=character(),
-                   gene_name=character(),
-                   chrpos=character(),
-                   diseases=character(),
-                   stringsAsFactors=FALSE) 
+                        allele_origin=character(), 
+                        clinical_significance=character(),
+                        gene_name=character(),
+                        chrpos=character(),
+                        diseases=character(),
+                        stringsAsFactors=FALSE)
   
-  #obtain data, test with
-  #(rs4986790, 9:117713024), benign
-  #(rs4477212, 1:82154), non pathogenic
-  #(rs429358, 19:44908684), pathogenic
-  #(rs4986791, 9:117713324) untested
-  #(rs8067378, 17:39895095) non clinvar results
-  #(rs1695, 11:67585218) 9 snp results, drug-response
-  
-  data_df <- rbind(data_df, subdata_df)
-  
-  
+  for(i in 1:nrow(tuple_df)){
+    chr <- tuple_df[i,][[1]]
+    pos <- tuple_df[i,][[2]]
+    cat(sprintf('PROCESSING: %s:%s \n', chr, pos))
+    if(!is.na(chr)){
+      subdata_df <- disease_data_from_snp(chr, pos)
+      if(!is.null(subdata_df)){
+        data_df <- rbind(data_df, subdata_df)     
+      }
+    }  
+  }
+  # pass data to nodeJS
+  data_df
+  # TODO save into reports folder
 }
