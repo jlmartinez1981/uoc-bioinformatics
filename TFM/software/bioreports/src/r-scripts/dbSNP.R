@@ -1,9 +1,7 @@
-#library(biomaRt);
 #library(reutils);
 library(rentrez);
 # https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html
 # https://www.ncbi.nlm.nih.gov
-source("utils.R")
 
 disease_data_from_snp <- function (chr, pos){
   search_string <- sprintf('%s[CHR] AND %s[CPOS] AND HUMAN[ORGN]', chr, pos) 
@@ -42,6 +40,10 @@ disease_data_from_snp <- function (chr, pos){
   # 441269
   #omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_summary[[3]]$uid, db='omim')
   omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_uids, db='omim')
+  if(is.null(omim_links$links$clinvar_omim)){
+    sprintf('NO OMIM LINKS for: %s:%s', chr, pos)
+    return(NULL)
+  }
   omim_summary <- entrez_summary(db='omim',id = omim_links$links$clinvar_omim)
   #omim_summary
   

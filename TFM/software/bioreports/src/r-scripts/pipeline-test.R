@@ -11,9 +11,12 @@ rm(list = ls())
 if(!exists("etl", mode="function")){
   source("etl.R")
 }
-# script con funciones de consulta a entrez
-source("dbSNP.R")
-source("utils.R")
+if(!exists("disease_data_from_snp", mode="function")){
+  # script con funciones de consulta a entrez
+  source("dbSNP.R")
+}
+
+#source("utils.R")
 
 test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/test-upload.txt'
 rawData <- read.csv(file=test_upload, header=TRUE, sep=" ", stringsAsFactors = FALSE)
@@ -32,6 +35,7 @@ data_df <- data.frame(snp_id=character(),
 
 #obtain data, test with
 #(rs4986790, 9:117713024), benign
+#(rs237025, 6:149400554), other, risk factor in clinvar
 #(rs4477212, 1:82154), non pathogenic
 #(rs429358, 19:44908684), pathogenic
 #(rs4986791, 9:117713324) untested
@@ -40,14 +44,20 @@ data_df <- data.frame(snp_id=character(),
 
 tuple_df <- cbind(c(9,1,19,9,17,11),
                   c(117713024,82154, 44908684,117713324,39895095,67585218))
+
+tuple_df <- cbind(c(6),
+                  c(149400554))
 colnames(tuple_df) <- c("chr_id", "chr_pos")
 
 for(i in 1:nrow(tuple_df)){
   chr <- tuple_df[i,][[1]]
   pos <- tuple_df[i,][[2]]
+  cat(sprintf('PROCESSING: %s:%s \n', chr, pos))
   if(!is.na(chr)){
     subdata_df <- disease_data_from_snp(chr, pos)
-    data_df <- rbind(data_df, subdata_df)     
+    if(!is.null(subdata_df)){
+      data_df <- rbind(data_df, subdata_df)     
+    }
   }  
 }
-  
+str(data_df)
