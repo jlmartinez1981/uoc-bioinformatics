@@ -37,19 +37,26 @@ export class PipelineService {
         return new PipelineService();
     }
 
-    public backgroundReportGenerationProcess(filePath: string, fileName: string): Promise<any> {
+    public backgroundReportGenerationProcess(reportType: string, filePath: string, fileName: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            const etlFileName = path.join(filePath, fileName);
-            const newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
-            // console.log('TRANSFORMING TO: ', newFile);
-            console.log('EXECUTING PIPELINE TO: ', fileName);
-            const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};
-            const scriptPath = path.join(__dirname, '../../r-scripts', 'pipeline-test.R');
-            try {
-                const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
-                resolve(true);
-            } catch (err) {
-                reject(err);
+            switch (reportType) {
+                case '1':
+                    const etlFileName = path.join(filePath, fileName);
+                    const newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
+                    console.log('EXECUTING DISEASE PIPELINE TO: ', fileName);
+                    const scriptData = {fileToWrite: newFile, fileToRead: etlFileName};
+                    const scriptPath = path.join(__dirname, '../../r-scripts', 'pipeline-test.R');
+                    try {
+                        const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
+                        resolve(true);
+                    } catch (err) {
+                        reject(err);
+                    }
+                    break;
+                case '2':
+                    console.log('EXECUTING ANCESTOR PIPELINE TO: ', fileName);
+                default:
+                    break;
             }
         });
         /*

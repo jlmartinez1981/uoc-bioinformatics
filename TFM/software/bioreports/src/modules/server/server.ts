@@ -167,8 +167,9 @@ export class Server {
           const params: any = req.body;
           let snpFileName: string = undefined;
           let storageName: string = undefined;
+          let reportType: string = '1'; // human diseases by default
           if (SnpUtils.checkSNPText(params.snpText)) {
-            // TODO save the file with title|anomymous-date.txt
+            reportType = params.reportType;
             snpFileName = (params.fileName !== '' ? params.fileName : 'anonymous');
             storageName = dateStr.concat('-', snpFileName, '.txt');
             const storagePath = path.join(uploadsPath, storageName);
@@ -177,7 +178,7 @@ export class Server {
             fileUploadPromise.then( (result) => {
               console.log(`${storageName} file uploaded to ${storagePath}`);
               res.render('pages/index', {uploadResult: storageName});
-              that.pipeline.backgroundReportGenerationProcess(uploadsPath, storageName);
+              that.pipeline.backgroundReportGenerationProcess(reportType, uploadsPath, storageName);
             }).catch(err => {
               console.error(`Failed to upload file ${storagePath}: ${err}`);
               return res.render('pages/error', {error: err});
@@ -190,6 +191,7 @@ export class Server {
           if (!snpFile) {
             throw 'Upload file: No file provided!';
           }
+          const reportType: string = req.body.reportType;
           const fileName = dateStr.concat('-', snpFile.name);
           const filePath = path.join(uploadsPath, fileName);
           // Use the mv() method to place the file somewhere on your server
@@ -197,7 +199,7 @@ export class Server {
           fileUploadPromise.then((result: any) => {
             console.log(`${fileName} file uploaded to ${filePath}`);
             res.render('pages/index', {uploadResult: `${fileName}`});
-            that.pipeline.backgroundReportGenerationProcess(uploadsPath, fileName);
+            that.pipeline.backgroundReportGenerationProcess(reportType, uploadsPath, fileName);
           }).catch((err: any) => {
             console.error(`Error uploading file to ${filePath}: ${err}`);
             return res.render('pages/error', {error: err});
