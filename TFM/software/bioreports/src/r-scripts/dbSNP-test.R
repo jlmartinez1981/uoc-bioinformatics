@@ -1,5 +1,4 @@
 #library(biomaRt);
-#library(reutils);
 library(rentrez);
 # https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html
 # https://www.ncbi.nlm.nih.gov
@@ -60,7 +59,8 @@ snp_df <- snp_df[!duplicated(snp_df),]
 
 #if id = null, error, Error: Must specify either (not both) 'id' or 'web_history' arguments
 clinvar_summary <- entrez_summary(db='clinvar',id = clinvar_links$links$snp_clinvar)
-#entrez_fetch(db='snp',id = snp_search$ids[3], rettype = 'xml')
+#kk <- entrez_fetch(db='snp',id = snp_search$ids[1], rettype = 'xml')
+#kk <- entrez_fetch(db='snp',id = snp_search$ids[1], rettype = 'flt', retmode = 'text')
 
 #get uids for querying OMIM
 clinvar_uids <- extract_from_esummary(clinvar_summary, c("uid"))
@@ -77,13 +77,3 @@ diseases <- unname(diseases)
 diseases <- paste(diseases, collapse = '#')
 
 snp_df$diseases <- diseases
-
-#reutils
-#pmid <- esearch("1:82154", "snp")
-#pmid
-
-#query <- "Chlamydia[mesh] and genome[mesh] and 2013[pdat]"
-
-# Upload the PMIDs for this search to the History server
-#pmids <- esearch(query, "pubmed", usehistory = TRUE)
-#pmids
