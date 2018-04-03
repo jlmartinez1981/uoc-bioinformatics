@@ -42,12 +42,13 @@ data_df <- data.frame(snp_id=character(),
 #(rs4986791, 9:117713324) untested
 #(rs8067378, 17:39895095) non clinvar results
 #(rs1695, 11:67585218) 9 snp results, drug-response
-
+#(rs1815739, 11:66560624) 5 snp results, 2 omim results, pathologic (sprint performance)
+#(rs6152, X:67545785) 2 snp results, benign
 tuple_df <- cbind(c(9,1,19,9,17,11),
                   c(117713024,82154, 44908684,117713324,39895095,67585218))
 
-tuple_df <- cbind(c(6,19),
-                  c(149400554, 44908684))
+tuple_df <- cbind(c(6,19,11,'X'),
+                  c(149400554, 44908684,66560624,67545785))
 colnames(tuple_df) <- c("chr_id", "chr_pos")
 
 for(i in 1:nrow(tuple_df)){
