@@ -5,13 +5,16 @@ library(rentrez);
 source("utils.R")
 
 # available databases rentrez
-#entrez_dbs()
+entrez_dbs()
 # db links to snp db
-#linkedDBs <- entrez_db_links(db = "snp")
+linkedDBs <- entrez_db_links(db = "snp")
+linkedDBs <- entrez_db_links(db = "popset")
 # summary
-#entrez_db_summary("snp")
+entrez_db_summary("snp")
+entrez_db_summary("popset")
 # searchable fields
-#entrez_db_searchable("snp")
+entrez_db_searchable("snp")
+entrez_db_searchable("popset")
 
 # chr:position example 1:82154 (2 items), 19:44908684 (pathogenic)
 # rsId example rs4477212 (2 itmes, same as above), rs429358 (pathogenic)

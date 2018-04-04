@@ -21,7 +21,7 @@ library(WikipediR)
 
 extractSnpTags (pg$Rs429358)
 extractGenotypeTags(pg$Rs429358)
-extractTags(pg$Rs429358, tags = c('population diversity', 'Gene'))
+extractTags(pg$Rs429358, tags = c('Assembly','population diversity', 'Gene'))
 
 findPMID <- function (x) {
   x <- unlist (strsplit (x, split = "\n"))
