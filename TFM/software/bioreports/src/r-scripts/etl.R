@@ -5,12 +5,25 @@ etl <- function (fileToRead, fileToWrite){
     while(TRUE) {
         line <- readLines(con, n = 1)
         if(length(line) == 0) break
-        else if(!startsWith(line, "#")){
+        # remove comments and headers
+        else if(!startsWith(line, "#") && !(grepl("rsid", tolower(line)))){
             line <- str_replace_all(line, "[:blank:]|,+", " ")
             #remove starting or ending spaces if exists
-            #line <- str_replace(line, "[:blank:]+$", "")
             line <- str_replace_all(line, "^\\s+|\\s+$", "")
-            write(line, file = fileToWrite, append = TRUE)
+            # remove quotes
+            line <- str_replace_all(line, "\"", "")
+            fields <- strsplit(line, " ")[[1]]
+            rsid_field <- fields [1]
+            chr_field <- fields[2]
+            pos_field <- fields[3]
+            allele1_field <- fields[4]
+            allele2_field <- fields[5]
+            if(nchar(allele1_field) > 1){
+              allele1_field <- substr(fields[4],1,1)
+              allele2_field <- substr(fields[4],2,2)
+            }
+            etl_line <- paste(rsid_field, chr_field, pos_field, allele1_field, allele2_field, sep = " ")
+            write(etl_line, file = fileToWrite, append = TRUE)
         } 
     }
     close(con)
