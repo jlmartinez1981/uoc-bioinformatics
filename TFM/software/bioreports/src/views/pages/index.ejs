@@ -29,17 +29,17 @@
             </div>
             
             <div class="form-group">
-                <label for="filenameInput">Filename: </label>
-                <input type="text" name="fileName" id="filenameInput" placeholder="file name">    
-            </div>
-            
-            <div class="form-group">
                 <label for="fileInput">Enter your snp file: </label>
                 <input type="file" name="snpFile" class="form-control-file" id="fileInput">
             </div>
             
             <div class="form-group">
-                <label for="textInput">Enter your snp file (mandatory fields rsId, chr and position, separated by space): </label>
+                <label for="filenameInput">Filename: </label>
+                <input type="text" name="fileName" id="filenameInput" placeholder="file name">    
+            </div>
+
+            <div class="form-group">
+                <label for="textInput">Enter your snp file (mandatory fields rsId, chr, position and genotype(AA), separated by space): </label>
                 <textarea name="snpText" form="uploadForm" class="form-control" id="textInput">#rsId    #chr    #position</textarea>
             </div>
         
