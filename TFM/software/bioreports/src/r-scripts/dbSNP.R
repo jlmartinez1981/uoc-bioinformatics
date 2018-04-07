@@ -3,6 +3,11 @@ library(rentrez);
 # https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html
 # https://www.ncbi.nlm.nih.gov
 
+# NCBI API KEY
+# 9948d6d9b847936e14f38ed0552f0a40bb08
+entrez_key <- '9948d6d9b847936e14f38ed0552f0a40bb08'
+set_entrez_key(entrez_key)
+
 disease_data_from_snp <- function (chr, pos){
   search_string <- sprintf('%s[CHR] AND %s[CPOS] AND HUMAN[ORGN]', chr, pos) 
   

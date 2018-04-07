@@ -4,6 +4,11 @@ library(rentrez);
 # https://www.ncbi.nlm.nih.gov
 source("utils.R")
 
+# NCBI API KEY
+# 9948d6d9b847936e14f38ed0552f0a40bb08
+entrez_key <- '9948d6d9b847936e14f38ed0552f0a40bb08'
+set_entrez_key(entrez_key)
+
 # available databases rentrez
 entrez_dbs()
 # db links to snp db
