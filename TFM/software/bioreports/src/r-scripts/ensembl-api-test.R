@@ -22,4 +22,6 @@ pop_data <- fromJSON(toJSON(content(r)))
 if(typeof(pop_data) == 'list'){
   # select populations from 1000 genomes
   pop_dataframe <- pop_data$populations[which(startsWith(tolower(pop_data$populations$population), "1000genomes")),]
+  # a <- pop_dataframe[which((pop_dataframe$allele == 'C')) ,c(2,3,4)]
+  # a[which(grepl("phase_3",a$population)),]
 }
