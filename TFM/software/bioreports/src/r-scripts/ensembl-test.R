@@ -6,6 +6,7 @@ biocLite("biomaRt")
 
 library(biomaRt)
 
+listMarts()
 listEnsembl()
 
 variation = useEnsembl(biomart="snp")
