@@ -4,6 +4,7 @@ library(rentrez);
 # https://www.ncbi.nlm.nih.gov
 source("utils.R")
 
+# https://www.r-bloggers.com/a-rentrez-paper-and-how-to-use-the-ncbis-new-api-keys/
 # NCBI API KEY
 # 9948d6d9b847936e14f38ed0552f0a40bb08
 entrez_key <- '9948d6d9b847936e14f38ed0552f0a40bb08'
