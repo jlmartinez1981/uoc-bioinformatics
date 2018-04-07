@@ -17,3 +17,9 @@ stop_for_status(r)
 # use this if you get a simple nested list back, otherwise inspect its structure
 # head(data.frame(t(sapply(content(r),c))))
 head(fromJSON(toJSON(content(r))))
+
+pop_data <- fromJSON(toJSON(content(r)))
+if(typeof(pop_data) == 'list'){
+  # select populations from 1000 genomes
+  pop_dataframe <- pop_data$populations[which(startsWith(tolower(pop_data$populations$population), "1000genomes")),]
+}
