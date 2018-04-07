@@ -16,8 +16,6 @@ if(!exists("disease_data_from_snp", mode="function")){
   source("dbSNP.R")
 }
 
-#source("utils.R")
-
 test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/test-upload.txt'
 rawData <- read.csv(file=test_upload, header=TRUE, sep=" ", stringsAsFactors = FALSE)
 
