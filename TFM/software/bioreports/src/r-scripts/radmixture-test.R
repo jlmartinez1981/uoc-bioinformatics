@@ -25,3 +25,11 @@ ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = "BR", pubdata = "K4")
 ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = "BR", pubdata = "K13")
 
 ances$q
+
+#par("mar")
+#ORIGINAL VALUES [1] 5.1 4.1 4.1 2.1
+#par(mar=c(1,1,1,1))
+
+#plot(ances$q)
+#boxplot(ances$q)
+#pie(ances$q)
