@@ -11,3 +11,6 @@ install.packages("reutils")
 install.packages("rentrez")
 #install.packages("Hmisc")
 install.packages("stringr")
+
+#ancestry
+install.packages("radmixture")
