@@ -8,12 +8,9 @@ rm(list = ls())
 
 #Rscript --vanilla pipeline.R 'C:\Users\jlmartinez\bioreports\upload\test.txt' 'C:\Users\jlmartinez\bioreports\upload_processed\test.txt'
 # script con procesos de transformación de datos
-if(!exists("etl", mode="function")){
-  source("etl.R")
+if(!exists("ancestry_from_snp_file", mode="function")){
+  source("admixture-ancestry.R")
 }
-# script con funciones de consulta a entrez
-source("dbSNP.R")
-source("utils.R")
 
 args = commandArgs(trailingOnly=TRUE)
 # Quotes can be suppressed in the output
@@ -26,33 +23,10 @@ fileToReport <- args[3]
 
 etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
 if(etlRes){
-  rawData <- read.csv(file=fileToWrite, header=TRUE, sep=" ")
-  tuple_df <- cbind(rawData[,2], rawData[,3])
-  colnames(tuple_df) <- c("chr_id", "chr_pos")
+  ancestry_data <- ancestry_from_snp_file(path_to_file=fileToWrite)
   
-  #create empty dataframe https://stackoverflow.com/questions/10689055/create-an-empty-data-frame
-  data_df <- data.frame(snp_id=character(),
-                        allele_origin=character(), 
-                        clinical_significance=character(),
-                        gene_name=character(),
-                        chrpos=character(),
-                        clinical_significance=character(),
-                        diseases=character(),
-                        stringsAsFactors=FALSE)
-  
-  for(i in 1:nrow(tuple_df)){
-    chr <- tuple_df[i,][[1]]
-    pos <- tuple_df[i,][[2]]
-    cat(sprintf('PROCESSING: %s:%s \n', chr, pos))
-    if(!is.na(chr)){
-      subdata_df <- disease_data_from_snp(chr, pos)
-      if(!is.null(subdata_df)){
-        data_df <- rbind(data_df, subdata_df)     
-      }
-    }  
-  }
   # pass data to nodeJS
-  data_df
+  ancestry_data
   #save into reports folder
-  write.csv(data_df, file = fileToReport,row.names=FALSE, na = '')
+  write.csv(ancestry_data, file = fileToReport,row.names=FALSE, na = '')
 }

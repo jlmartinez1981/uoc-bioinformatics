@@ -203,7 +203,11 @@ export class Server {
           if (SnpUtils.checkSNPText(params.snpText)) {
             reportType = params.reportType;
             snpFileName = (params.fileName !== '' ? params.fileName : 'anonymous');
-            storageName = dateStr.concat('-', snpFileName, '.txt');
+            if ( reportType == '1' ) {
+              storageName = dateStr.concat('-disease-', snpFileName, '.txt');
+            } else {
+              storageName = dateStr.concat('-ancestry-', snpFileName, '.txt');
+            }
             const storagePath = path.join(uploadsPath, storageName);
             console.log('SnpFileName: ', storagePath);
             const fileUploadPromise = that.fileService.saveFile(storagePath, params.snpText);
@@ -223,8 +227,15 @@ export class Server {
           if (!snpFile) {
             throw 'Upload file: No file provided!';
           }
+
+          let fileName: string = undefined;
           const reportType: string = req.body.reportType;
-          const fileName = dateStr.concat('-', snpFile.name);
+          if ( reportType == '1' ) {
+            fileName = dateStr.concat('-disease-', snpFile.name, '.txt');
+          } else {
+            fileName = dateStr.concat('-ancestry-', snpFile.name, '.txt');
+          }
+
           const filePath = path.join(uploadsPath, fileName);
           // Use the mv() method to place the file somewhere on your server
           const fileUploadPromise = snpFile.mv(filePath);

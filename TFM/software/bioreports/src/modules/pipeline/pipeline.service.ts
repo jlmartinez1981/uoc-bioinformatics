@@ -44,7 +44,7 @@ export class PipelineService {
                     console.log('EXECUTING DISEASE PIPELINE TO: ', fileName);
                     let etlFileName = path.join(filePath, fileName);
                     let newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
-                    let reportFileName = path.join(FileService.REPORTS_PATH_DISEASE, fileName.replace('.txt', '.csv'));
+                    let reportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
 
                     let scriptData = {fileToWrite: newFile, fileToRead: etlFileName, reportFile: reportFileName};
                     let scriptPath = path.join(__dirname, '../../r-scripts', 'disease-pipeline-test.R');
@@ -59,7 +59,7 @@ export class PipelineService {
                     console.log('EXECUTING ANCESTOR PIPELINE TO: ', fileName);
                     etlFileName = path.join(filePath, fileName);
                     newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
-                    reportFileName = path.join(FileService.REPORTS_PATH_DISEASE, fileName.replace('.txt', '.csv'));
+                    reportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
 
                     scriptData = {fileToWrite: newFile, fileToRead: etlFileName, reportFile: reportFileName};
                     scriptPath = path.join(__dirname, '../../r-scripts', 'ancestry-pipeline-test.R');
