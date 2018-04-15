@@ -231,9 +231,9 @@ export class Server {
           let fileName: string = undefined;
           const reportType: string = req.body.reportType;
           if ( reportType == '1' ) {
-            fileName = dateStr.concat('-disease-', snpFile.name, '.txt');
+            fileName = dateStr.concat('-disease-', snpFile.name);
           } else {
-            fileName = dateStr.concat('-ancestry-', snpFile.name, '.txt');
+            fileName = dateStr.concat('-ancestry-', snpFile.name);
           }
 
           const filePath = path.join(uploadsPath, fileName);

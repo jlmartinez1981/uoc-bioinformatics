@@ -10,12 +10,18 @@ setwd(workingDirectory);
 rm(list = ls())
 
 #Rscript --vanilla pipeline.R 'C:\Users\jlmartinez\bioreports\upload\test.txt' 'C:\Users\jlmartinez\bioreports\upload_processed\test.txt'
-# script con procesos de transformaciÃ³n de datos
+# script con procesos de transformación de datos
 if(!exists("etl", mode="function")){
   source("etl.R")
 }
 
-path_to_file <- 'C:/Users/jlmartinez/bioreports/upload_processed/ancestry-upload.txt'
+args = commandArgs(trailingOnly=TRUE)
+# Quotes can be suppressed in the output
+print(args[1], quote = FALSE)
+print(args[2], quote = FALSE)
+print(args[3], quote = FALSE)
+
+path_to_file <- 'C:/Users/jlmartinez/bioreports/upload_processed/20180415210238-ancestry-7210.23andme.5592.txt'
 genotype <- read.table(file = path_to_file)
 
 load('C:/Users/jlmartinez/Desktop/reference-data/globe13.alleles.RData')

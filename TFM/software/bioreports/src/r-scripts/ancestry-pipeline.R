@@ -12,10 +12,16 @@ if(!exists("ancestry_from_snp_file", mode="function")){
   source("admixture-ancestry.R")
 }
 
+# script con procesos de transformación de datos
+if(!exists("etl", mode="function")){
+  source("etl.R")
+}
+
 args = commandArgs(trailingOnly=TRUE)
 # Quotes can be suppressed in the output
 print(args[1], quote = FALSE)
 print(args[2], quote = FALSE)
+print(args[3], quote = FALSE)
 
 fileToRead <- args[1]
 fileToWrite <- args[2]

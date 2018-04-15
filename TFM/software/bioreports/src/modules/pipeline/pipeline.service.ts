@@ -42,14 +42,16 @@ export class PipelineService {
             switch (reportType) {
                 case '1':
                     console.log('EXECUTING DISEASE PIPELINE TO: ', fileName);
-                    let etlFileName = path.join(filePath, fileName);
-                    let newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
-                    let reportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
 
-                    let scriptData = {fileToWrite: newFile, fileToRead: etlFileName, reportFile: reportFileName};
-                    let scriptPath = path.join(__dirname, '../../r-scripts', 'disease-pipeline-test.R');
+                    const diseaseEtlFileName = path.join(filePath, fileName);
+                    const diseaseNewFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
+                    const diseaseReportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
+
+                    const diseaseScriptData = {fileToWrite: diseaseNewFile, fileToRead: diseaseEtlFileName,
+                         reportFile: diseaseReportFileName};
+                    const diseaseScriptPath = path.join(__dirname, '../../r-scripts', 'disease-pipeline-test.R');
                     try {
-                        const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
+                        const externalProcessResult = ExternalProcess.executeRScript(diseaseScriptPath, diseaseScriptData);
                         resolve(true);
                     } catch (err) {
                         reject(err);
@@ -57,14 +59,17 @@ export class PipelineService {
                     break;
                 case '2':
                     console.log('EXECUTING ANCESTOR PIPELINE TO: ', fileName);
-                    etlFileName = path.join(filePath, fileName);
-                    newFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
-                    reportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
 
-                    scriptData = {fileToWrite: newFile, fileToRead: etlFileName, reportFile: reportFileName};
-                    scriptPath = path.join(__dirname, '../../r-scripts', 'ancestry-pipeline-test.R');
+                    const ancestryEtlFileName = path.join(filePath, fileName);
+                    // do not change .txt by .csv
+                    const ancestryNewFile = path.join(FileService.PROCESSED_PATH, fileName);
+                    const ancestryReportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
+
+                    const ancestryScriptData = {fileToWrite: ancestryNewFile, fileToRead: ancestryEtlFileName,
+                         reportFile: ancestryReportFileName};
+                    const ancestryScriptPath = path.join(__dirname, '../../r-scripts', 'ancestry-pipeline-test.R');
                     try {
-                        const externalProcessResult = ExternalProcess.executeRScript(scriptPath, scriptData);
+                        const externalProcessResult = ExternalProcess.executeRScript(ancestryScriptPath, ancestryScriptData);
                         resolve(true);
                     } catch (err) {
                         reject(err);
