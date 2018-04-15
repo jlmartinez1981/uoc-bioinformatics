@@ -22,7 +22,7 @@ etl <- function (fileToRead, fileToWrite){
             if(nchar(allele1_field) > 1){
               allele1_field <- substr(fields[4],1,1)
               allele2_field <- substr(fields[4],2,2)
-              genotype_field <- allele1_field
+              genotype_field <- paste(allele1_field, allele2_field, sep = "")
             }
             etl_line <- paste(rsid_field, chr_field, pos_field, genotype_field, sep = " ")
             write(etl_line, file = fileToWrite, append = TRUE)
