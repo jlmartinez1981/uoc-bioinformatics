@@ -17,7 +17,7 @@ disease_data_from_snp <- function (chr, pos){
                               retmax=20)
   
   if(is.null(snp_search$ids) || length(snp_search$ids) == 0){
-    sprintf('NO DBSNP RESULTS for: %s:%s', chr, pos)
+    cat(sprintf('NO DBSNP RESULTS for: %s:%s', chr, pos))
     return(NULL)
   }
   # fetch only clinvar
@@ -25,7 +25,7 @@ disease_data_from_snp <- function (chr, pos){
   clinvar_links$links$snp_clinvar
   
   if(is.null(clinvar_links$links$snp_clinvar)){
-    sprintf('NO CLINVAR LINKS for: %s:%s', chr, pos)
+    cat(sprintf('NO CLINVAR LINKS for: %s:%s', chr, pos))
     return(NULL)
   }
   
@@ -56,7 +56,7 @@ disease_data_from_snp <- function (chr, pos){
   
   omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_uids, db='omim')
   if(is.null(omim_links$links$clinvar_omim)){
-    sprintf('NO OMIM LINKS for: %s:%s', chr, pos)
+    cat(sprintf('NO OMIM LINKS for: %s:%s', chr, pos))
     return(NULL)
   }
   omim_summary <- entrez_summary(db='omim',id = omim_links$links$clinvar_omim)

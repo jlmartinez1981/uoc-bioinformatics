@@ -41,10 +41,11 @@ if(etlRes){
                         diseases=character(),
                         stringsAsFactors=FALSE)
   
-  for(i in 1:nrow(tuple_df)){
+  total_rows <- nrow(tuple_df)
+  for(i in 1:total_rows){
     chr <- tuple_df[i,][[1]]
     pos <- tuple_df[i,][[2]]
-    cat(sprintf('PROCESSING: %s:%s \n', chr, pos))
+    cat(sprintf('PROCESSING %s of %s: %s:%s \n', i, total_rows, chr, pos))
     if(!is.na(chr)){
       subdata_df <- disease_data_from_snp(chr, pos)
       if(!is.null(subdata_df)){
