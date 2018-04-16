@@ -49,7 +49,7 @@ export class PipelineService {
 
                     const diseaseScriptData = {fileToWrite: diseaseNewFile, fileToRead: diseaseEtlFileName,
                          reportFile: diseaseReportFileName};
-                    const diseaseScriptPath = path.join(__dirname, '../../r-scripts', 'disease-pipeline.R');
+                    const diseaseScriptPath = path.join(__dirname, '../../r-scripts', 'disease-pipeline-test.R');
                     try {
                         const externalProcessResult = ExternalProcess.executeRScript(diseaseScriptPath, diseaseScriptData);
                         resolve(true);
