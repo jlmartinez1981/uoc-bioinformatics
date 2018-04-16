@@ -11,7 +11,7 @@
             <% Object.keys(details.report[0]).forEach(function(region) { %>
                 <tr>
                     <td scope="col"><%= region %></td>
-                    <td scope="col"><%= details.report[0][region] %></td>
+                    <td scope="col"><%= parseFloat(details.report[0][region]).toFixed(6) %></td>
                 </tr>
             <% }); %>    
         </tbody>
