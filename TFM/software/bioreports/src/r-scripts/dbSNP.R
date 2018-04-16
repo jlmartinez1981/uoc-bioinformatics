@@ -16,6 +16,10 @@ disease_data_from_snp <- function (chr, pos){
                               term=search_term,
                               retmax=20)
   
+  if(is.null(snp_search$ids) || length(snp_search$ids) == 0){
+    sprintf('NO DBSNP RESULTS for: %s:%s', chr, pos)
+    return(NULL)
+  }
   # fetch only clinvar
   clinvar_links <- entrez_link(dbfrom='snp', id=snp_search$ids, db='clinvar')
   clinvar_links$links$snp_clinvar
