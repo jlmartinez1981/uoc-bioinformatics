@@ -1,4 +1,3 @@
-import * as R from 'r-script';
 import * as child from 'child_process';
 import * as path from 'path';
 
@@ -16,6 +15,7 @@ export class ExternalProcess {
         const processArgs: Array<string> = ['--vanilla', '--slave', scriptPath];
         processArgs.push(scriptArgs.fileToRead);
         processArgs.push(scriptArgs.fileToWrite);
+        processArgs.push(scriptArgs.reportFile);
 
         const rspawn = child.spawn(r_comm, processArgs);
 

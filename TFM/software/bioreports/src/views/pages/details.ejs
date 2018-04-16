@@ -7,54 +7,16 @@
     <header>
         <% include ../partials/header %>
     </header>
+    
     <h1>Report from Bioreports</h1>
     <h2>Detailed report</h2>
-    <!--
-        snp_id: "237025", allele_origin: "T(germline)/C(germline)",
-        clinical_significance: "other", gene_name: "TAB2", chrpos: "Y"
-        diseases:"DIABETES MELLITUS, INSULIN-DEPENDENT, 5; IDDM5"
-    -->
-    <div class="contentInfo">
-        <h3><%= details.fileName %></h3>
-        <table class="table table-striped">
-            <thead style="color: #fff; background-color: #212529; border-color: #32383e;">
-                <tr>
-                    <th scope="col">SNP ID</th>
-                    <th scope="col">GENE NAME</th>
-                    <th scope="col">CHRPOS</th>
-                    <th scope="col">ALLELE ORIGIN</th>
-                    <th scope="col">CLINICAL SIGNIFICANCE</th>
-                    <th scope="col">RELATED DISEASES</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% details.report.forEach(function(line) { %>
-                <tr>
-                    <th scope="row"><%= line.snp_id %></th>                    
-                    <td><%= line.gene_name %></td>
-                    <td><%= line.chrpos %></td>
-                    <td><%= line.allele_origin %></td>
-                    <td>
-                        <ul>
-                            <li><%= line.clinical_significance %></li>
-                            <% if(line.clinical_significance_clinvar !== '') {%>
-                                <li><%= line.clinical_significance_clinvar %></li>
-                            <% } %>    
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            <% line.diseases.forEach(function(dis) { %>
-                                <li><%= dis %></li>
-                            <% }); %>    
-                        </ul>
-                    </td>
-            <% }); %>
-                </tr>
-            </tbody>
-        </table>
-        
-    </div>
+
+    <%if (details.reportType == 1) { %>
+        <% include ../partials/diseaseDetail %>
+    <% } else { %>
+        <% include ../partials/ancestryDetail %>
+    <% } %>
+
     <footer>
         <% include ../partials/footer %>
     </footer>

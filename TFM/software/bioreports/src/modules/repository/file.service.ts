@@ -12,6 +12,9 @@ export class FileService {
     private static instance: FileService;
     public static APP_PATH: string = path.join(process.env.USERPROFILE, 'bioreports');
     public static REPORTS_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/reports');
+    public static DISEASE_REPORTS_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/reports/disease');
+    public static ANCESTRY_REPORTS_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/reports/ancestry');
+
     public static UPLOAD_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/upload');
     public static PROCESSED_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/upload_processed');
 
@@ -28,6 +31,8 @@ export class FileService {
         // init paths
         this.createDirIfnotExists(FileService.APP_PATH);
         this.createDirIfnotExists(FileService.REPORTS_PATH);
+        this.createDirIfnotExists(FileService.DISEASE_REPORTS_PATH);
+        this.createDirIfnotExists(FileService.ANCESTRY_REPORTS_PATH);
         this.createDirIfnotExists(FileService.UPLOAD_PATH);
         this.createDirIfnotExists(FileService.PROCESSED_PATH);
     }

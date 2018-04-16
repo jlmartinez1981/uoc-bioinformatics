@@ -137,9 +137,12 @@ export class Server {
 
     this.app.get('/reports', function(req: express.Request, res: express.Response) {
       try {
-        const reportsPath = FileService.REPORTS_PATH;
-        const files = that.fileService.listFiles(reportsPath);
-        res.render('pages/reportsList', {reportfiles: files});
+        const diseaseReportsPath = FileService.DISEASE_REPORTS_PATH;
+        const diseaseFiles = that.fileService.listFiles(diseaseReportsPath);
+
+        const ancestryReportsPath = FileService.ANCESTRY_REPORTS_PATH;
+        const ancestryFiles = that.fileService.listFiles(ancestryReportsPath);
+        res.render('pages/reportsList', {diseaseReportFiles: diseaseFiles, ancestryReportFiles: ancestryFiles});
       } catch (err) {
         console.error(`Error showing reports page: ${err}`);
         return res.render('pages/error', {error: err});
@@ -147,9 +150,9 @@ export class Server {
     });
 
     this.app.get('/details', function(req: express.Request, res: express.Response) {
-      const report: any = {fileName: req.query.report, report: undefined };
+      const report: any = {fileName: req.query.report, report: undefined, reportType: req.query.reportType};
       const details: Array<object> = new Array<object>();
-      const reportsPath = path.join(FileService.REPORTS_PATH, req.query.report);
+      const reportsPath = path.join((req.query.reportType == 1 ? FileService.DISEASE_REPORTS_PATH : FileService.ANCESTRY_REPORTS_PATH ), req.query.report);
       try {
         console.log(`REPORT ${reportsPath}`);
         const csv = csvToJson;

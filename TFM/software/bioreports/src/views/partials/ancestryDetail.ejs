@@ -1,0 +1,20 @@
+<!-- views/partials/ancestryDetail.ejs -->
+<div class="contentInfo">
+    <h3><%= details.fileName %></h3>
+
+    <table class="table table-striped">
+        <thead style="color: #fff; background-color: #212529; border-color: #32383e;">
+            <th scope="col">REGION</th>
+            <th scope="col">REGION VALUE</th>
+        </thead>
+        <tbody>
+            <% Object.keys(details.report[0]).forEach(function(region) { %>
+                <tr>
+                    <td scope="col"><%= region %></td>
+                    <td scope="col"><%= details.report[0][region] %></td>
+                </tr>
+            <% }); %>    
+        </tbody>
+    </table>
+
+</div>

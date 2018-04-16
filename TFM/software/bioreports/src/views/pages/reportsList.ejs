@@ -19,8 +19,14 @@
     <div class="contentInfo">
         
         <ul>
-            <% reportfiles.forEach(function(report) { %>
-                <li><a href="/details?report=<%= report.name %>"><%= report.name %> - <%= report.date %></a></li>
+            <% diseaseReportFiles.forEach(function(report) { %>
+                <li><a href="/details?report=<%= report.name %>&reportType=1"><%= report.name %> - <%= report.date %></a> (Human disease report)</li>
+            <% }); %>
+        </ul>
+
+        <ul>
+            <% ancestryReportFiles.forEach(function(report) { %>
+                <li><a href="/details?report=<%= report.name %>&reportType=2"><%= report.name %> - <%= report.date %></a> (Ancestry report)</li>
             <% }); %>
         </ul>
     </div>

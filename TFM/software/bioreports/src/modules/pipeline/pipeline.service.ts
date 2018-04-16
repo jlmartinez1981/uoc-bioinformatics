@@ -45,7 +45,7 @@ export class PipelineService {
 
                     const diseaseEtlFileName = path.join(filePath, fileName);
                     const diseaseNewFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
-                    const diseaseReportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
+                    const diseaseReportFileName = path.join(FileService.DISEASE_REPORTS_PATH, fileName.replace('.txt', '.csv'));
 
                     const diseaseScriptData = {fileToWrite: diseaseNewFile, fileToRead: diseaseEtlFileName,
                          reportFile: diseaseReportFileName};
@@ -63,11 +63,11 @@ export class PipelineService {
                     const ancestryEtlFileName = path.join(filePath, fileName);
                     // do not change .txt by .csv
                     const ancestryNewFile = path.join(FileService.PROCESSED_PATH, fileName);
-                    const ancestryReportFileName = path.join(FileService.REPORTS_PATH, fileName.replace('.txt', '.csv'));
+                    const ancestryReportFileName = path.join(FileService.ANCESTRY_REPORTS_PATH, fileName.replace('.txt', '.csv'));
 
                     const ancestryScriptData = {fileToWrite: ancestryNewFile, fileToRead: ancestryEtlFileName,
                          reportFile: ancestryReportFileName};
-                    const ancestryScriptPath = path.join(__dirname, '../../r-scripts', 'ancestry-pipeline-test.R');
+                    const ancestryScriptPath = path.join(__dirname, '../../r-scripts', 'ancestry-pipeline.R');
                     try {
                         const externalProcessResult = ExternalProcess.executeRScript(ancestryScriptPath, ancestryScriptData);
                         resolve(true);
@@ -79,26 +79,5 @@ export class PipelineService {
                     break;
             }
         });
-        /*
-        console.log(`Starting ETL process for file ${fileName}`);
-        return new Promise((resolve, reject) => {
-            const transformedPromise = this.etlService.transform(filePath, fileName, trimSpaces);
-            transformedPromise.then((result: any) => {
-                console.log(`${filePath}/${fileName} transformed to ${result}`);
-                console.log(`Starting report generation for file ${fileName}`);
-
-                const reportPromise = this.reportService.generateReport(result, fileName);
-                reportPromise.then((result: any) => {
-                    console.log(`${filePath} report generated for file ${result}`);
-                    resolve(true);
-                    }).catch((err: any) => {
-                        console.error(`Error transforming file ${filePath}: ${err}`);
-                        reject(err);
-                    });
-                }).catch((err: any) => {
-                console.error(`Error transforming file ${filePath}: ${err}`);
-            });
-        });
-        */
       }
 }
