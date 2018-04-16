@@ -58,7 +58,7 @@ export class PipelineService {
                     }
                     break;
                 case '2':
-                    console.log('EXECUTING ANCESTOR PIPELINE TO: ', fileName);
+                    console.log('EXECUTING ANCESTRY PIPELINE TO: ', fileName);
 
                     const ancestryEtlFileName = path.join(filePath, fileName);
                     // do not change .txt by .csv
