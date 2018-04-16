@@ -1,7 +1,7 @@
 # Modify this depending on the computer
 workingDirectory = 'C:/Users/jmartiez/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
-workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
+#workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 setwd(workingDirectory);
 
 #clean variables
@@ -42,7 +42,7 @@ if(etlRes){
                         stringsAsFactors=FALSE)
   
   total_rows <- nrow(tuple_df)
-  for(i in 1:total_rows){
+  for(i in 0:total_rows){
     chr <- tuple_df[i,][[1]]
     pos <- tuple_df[i,][[2]]
     cat(sprintf('PROCESSING %s of %s: %s:%s \n', i, total_rows, chr, pos))
