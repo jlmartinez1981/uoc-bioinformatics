@@ -2,7 +2,6 @@
 library(rentrez);
 # https://cran.r-project.org/web/packages/rentrez/vignettes/rentrez_tutorial.html
 # https://www.ncbi.nlm.nih.gov
-source("utils.R")
 
 # https://www.r-bloggers.com/a-rentrez-paper-and-how-to-use-the-ncbis-new-api-keys/
 # NCBI API KEY
@@ -27,6 +26,9 @@ entrez_db_searchable("popset")
 # search_string <- sprintf('%s[CHR] AND %s[CPOS] AND HUMAN[ORGN]', 1, 82154) 
 search_string <- sprintf('%s[CHR] AND %s[CPOS] AND HUMAN[ORGN]', 19, 44908684) 
 
+# rs74127632 1 161305625 AA error
+search_string <- sprintf('%s[CHR] AND %s[CPOS] AND HUMAN[ORGN]', 1, 161305625)
+
 #rs_id <- 'rs429358'
 #search_term <- rs_id;
 #snp_search <- entrez_search(db="snp",
@@ -39,6 +41,11 @@ search_term <- search_string;
 snp_search <- entrez_search(db="snp",
                             term=search_term,
                             retmax=20)
+
+if(is.null(snp_search$ids) || length(snp_search$ids) == 0){
+  cat(sprintf('NO DBSNP RESULTS for: %s:%s', chr, pos))
+  return(NULL)
+}
 
 # fetch only clinvar
 clinvar_links <- entrez_link(dbfrom='snp', id=snp_search$ids, db='clinvar')
