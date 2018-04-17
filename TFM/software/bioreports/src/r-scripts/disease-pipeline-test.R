@@ -59,7 +59,7 @@ cat(sprintf('PROCESSING DATA FRAME WITH %s ROWS \n',total_rows))
 fileToReport <- 'C:/Users/jlmartinez/bioreports/reports/disease/test.csv'
 #fileToReport <- 'C:/Users/inclusite/bioreports/reports/disease/test.csv'
 cat(sprintf('SAVING REPORT TO: %s \n', fileToReport))
-write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', append = FALSE)
+write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', sep = ",", append = FALSE)
 
 for(i in 1:total_rows){
   rsid <- tuple_df[i,][[1]]
@@ -72,7 +72,7 @@ for(i in 1:total_rows){
       return(NULL)
     })
     if(!is.null(subdata_df)){
-      write.table(subdata_df, file = fileToReport,row.names=FALSE, col.names = FALSE, na = '', append = TRUE)
+      write.table(subdata_df, file = fileToReport,row.names=FALSE, col.names = FALSE, na = '', sep = ",", append = TRUE)
       data_df <- rbind(data_df, subdata_df)     
     }
   }  

@@ -49,7 +49,7 @@ if(etlRes){
     pos <- tuple_df[i,][[2]]
     cat(sprintf('PROCESSING %s of %s: %s:%s \n', i, total_rows, chr, pos))
     if(!is.na(chr)){
-      subdata_df <- tryCatch({exp=disease_data_from_snp(chr, pos)}, error=function(i){
+      subdata_df <- tryCatch({exp=disease_data_from_snp(NULL, chr, pos)}, error=function(i){
         cat(sprintf('ERROR PROCESSING: %s:%s \n', chr, pos))
         return(NULL)
         })
