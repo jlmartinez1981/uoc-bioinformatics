@@ -8,9 +8,13 @@ library(rentrez);
 entrez_key <- '9948d6d9b847936e14f38ed0552f0a40bb08'
 set_entrez_key(entrez_key)
 
-disease_data_from_snp <- function (chr, pos){
+disease_data_from_snp <- function (rsid = NULL, chr, pos){
+
   search_string <- sprintf('%s[CHR] AND %s[CPOS] AND HUMAN[ORGN]', chr, pos) 
-  
+  if(!is.null(rsid)){
+    search_string <- sprintf('%s[RS] AND HUMAN[ORGN]', rsid) 
+  }
+    
   search_term <- search_string;
   snp_search <- entrez_search(db="snp",
                               term=search_term,
@@ -25,7 +29,7 @@ disease_data_from_snp <- function (chr, pos){
   clinvar_links$links$snp_clinvar
   
   if(is.null(clinvar_links$links$snp_clinvar)){
-    cat(sprintf('NO CLINVAR LINKS for: %s:%s', chr, pos))
+    cat(sprintf('NO CLINVAR LINKS for: %s at %s:%s', rsid, chr, pos))
     return(NULL)
   }
   
@@ -56,7 +60,7 @@ disease_data_from_snp <- function (chr, pos){
   
   omim_links <- entrez_link(dbfrom = 'clinvar', id=clinvar_uids, db='omim')
   if(is.null(omim_links$links$clinvar_omim)){
-    cat(sprintf('NO OMIM LINKS for: %s:%s', chr, pos))
+    cat(sprintf('NO OMIM LINKS for rsid:%s at %s:%s', rsid, chr, pos))
     return(NULL)
   }
   omim_summary <- entrez_summary(db='omim',id = omim_links$links$clinvar_omim)
