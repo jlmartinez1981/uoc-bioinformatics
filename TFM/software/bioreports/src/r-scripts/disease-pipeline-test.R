@@ -72,7 +72,7 @@ for(i in 1:total_rows){
       return(NULL)
     })
     if(!is.null(subdata_df)){
-      write.table(subdata_df, file = fileToReport,row.names=FALSE, col.names = FALSE, na = '', sep = ",", append = TRUE)
+      write.table(subdata_df, file = fileToReport,row.names=FALSE, col.names = FALSE, na = 'NA', sep = ",", append = TRUE)
       data_df <- rbind(data_df, subdata_df)     
     }
   }  
