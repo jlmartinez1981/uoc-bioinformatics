@@ -37,25 +37,31 @@ if(etlRes){
                         clinical_significance=character(),
                         gene_name=character(),
                         chrpos=character(),
-                        clinical_significance=character(),
+                        clinical_significance_clinvar=character(),
                         diseases=character(),
                         stringsAsFactors=FALSE)
   
   total_rows <- nrow(tuple_df)
   cat(sprintf('PROCESSING DATA FRAME WITH %s ROWS \n',total_rows))
+  write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', append = FALSE)
   for(i in 1:total_rows){
     chr <- tuple_df[i,][[1]]
     pos <- tuple_df[i,][[2]]
     cat(sprintf('PROCESSING %s of %s: %s:%s \n', i, total_rows, chr, pos))
     if(!is.na(chr)){
-      subdata_df <- tryCatch({exp=disease_data_from_snp(chr, pos)}, error=function(i){return(NULL)})
+      subdata_df <- tryCatch({exp=disease_data_from_snp(chr, pos)}, error=function(i){
+        cat(sprintf('ERROR PROCESSING: %s:%s \n', chr, pos))
+        return(NULL)
+        })
       if(!is.null(subdata_df)){
+        write.table(subdata_df, file = fileToReport, row.names=FALSE, col.names = FALSE, na = '', append = TRUE)
         data_df <- rbind(data_df, subdata_df)     
       }
     }  
   }
+  cat(sprintf('END OF PROCESSING REPORT FILE\n'))
   # pass data to nodeJS
   data_df
   #save into reports folder
-  write.csv(data_df, file = fileToReport,row.names=FALSE, na = '')
+  #write.csv(data_df, file = fileToReport,row.names=FALSE, na = '')
 }
