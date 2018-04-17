@@ -14,6 +14,7 @@ import { DateUtils } from '../utils/date.utils';
 import { PipelineService } from '../pipeline/pipeline.service';
 // import { appLogger } from '../logger/log4js.logger';
 import * as csvToJson from 'csvtojson';
+import { EOL } from 'os';
 
 /**
  * The server.
@@ -213,7 +214,15 @@ export class Server {
             }
             const storagePath = path.join(uploadsPath, storageName);
             console.log('SnpFileName: ', storagePath);
-            const fileUploadPromise = that.fileService.saveFile(storagePath, params.snpText);
+            let snpText: string = params.snpText;
+            // check for end of line character
+            const lastChar =  snpText.slice(-1);
+            const match = /\r\n|\r|\n/g.exec(lastChar);
+            if (!match) {
+              // Found one, look at `match` for details, in particular `match.index`
+              snpText = snpText.concat(EOL);
+            }
+            const fileUploadPromise = that.fileService.saveFile(storagePath, snpText);
             fileUploadPromise.then( (result) => {
               console.log(`${storageName} file uploaded to ${storagePath}`);
               res.render('pages/index', {uploadResult: storageName});
