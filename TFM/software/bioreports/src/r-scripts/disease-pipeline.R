@@ -1,7 +1,7 @@
 # Modify this depending on the computer
 workingDirectory = 'C:/Users/jmartiez/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
-#workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
+workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 setwd(workingDirectory);
 
 #clean variables
@@ -27,7 +27,7 @@ fileToReport <- args[3]
 
 etlRes <- etl(fileToRead = fileToRead, fileToWrite = fileToWrite)
 if(etlRes){
-  rawData <- read.csv(file=fileToWrite, header=TRUE, sep=" ")
+  rawData <- read.csv(file=fileToWrite, header=FALSE, sep=" ")
   tuple_df <- cbind(rawData[,2], rawData[,3])
   colnames(tuple_df) <- c("chr_id", "chr_pos")
   
@@ -42,12 +42,13 @@ if(etlRes){
                         stringsAsFactors=FALSE)
   
   total_rows <- nrow(tuple_df)
-  for(i in 0:total_rows){
+  cat(sprintf('PROCESSING DATA FRAME WITH %s ROWS \n',total_rows))
+  for(i in 1:total_rows){
     chr <- tuple_df[i,][[1]]
     pos <- tuple_df[i,][[2]]
     cat(sprintf('PROCESSING %s of %s: %s:%s \n', i, total_rows, chr, pos))
     if(!is.na(chr)){
-      subdata_df <- disease_data_from_snp(chr, pos)
+      subdata_df <- tryCatch({exp=disease_data_from_snp(chr, pos)}, error=function(i){return(NULL)})
       if(!is.null(subdata_df)){
         data_df <- rbind(data_df, subdata_df)     
       }

@@ -1,7 +1,7 @@
 # Modify this depending on the computer
 workingDirectory = 'C:/Users/jmartiez/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
-#workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
+workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 setwd(workingDirectory);
 
 #clean variables
@@ -19,9 +19,9 @@ if(!exists("disease_data_from_snp", mode="function")){
 
 test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/test-upload.txt'
 test_upload <- 'C:/Users/inclusite/bioreports/upload_processed/20180416115748-ancestry-7339.ancestry.5702'
-test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/20180416195531-disease-anonymous.csv'
+test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/20180416200548-disease-7210.23andme.5592.csv'
 
-rawData <- read.csv(file=test_upload, header=TRUE, sep=" ", stringsAsFactors = FALSE)
+rawData <- read.csv(file=test_upload, header=FALSE, sep=" ", stringsAsFactors = FALSE)
 
 tuple_df <- cbind(rawData[,2], rawData[,3])
 colnames(tuple_df) <- c("chr_id", "chr_pos")
@@ -54,7 +54,8 @@ data_df <- data.frame(snp_id=character(),
 #                 c(149400554, 44908684,66560624,67545785))
 #colnames(tuple_df) <- c("chr_id", "chr_pos")
 total_rows <- nrow(tuple_df)
-for(i in 0:total_rows){
+cat(sprintf('PROCESSING DATA FRAME WITH %s ROWS \n',total_rows))
+for(i in 1:total_rows){
   chr <- tuple_df[i,][[1]]
   pos <- tuple_df[i,][[2]]
   cat(sprintf('PROCESSING %s of %s: %s:%s \n', i, total_rows, chr, pos))
