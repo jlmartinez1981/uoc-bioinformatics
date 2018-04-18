@@ -28,7 +28,8 @@
                     <td>
                         <ul>
                             <li><%= line.clinical_significance %></li>
-                            <% if(line.clinical_significance_clinvar !== '') {%>
+                            <% if(line.clinical_significance_clinvar !== '' &&
+                            line.clinical_significance_clinvar !== 'NA' ) {%>
                                 <li><%= line.clinical_significance_clinvar %></li>
                             <% } %>    
                         </ul>
