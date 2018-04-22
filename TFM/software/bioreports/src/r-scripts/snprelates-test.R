@@ -14,6 +14,12 @@ library("SNPRelate")
 snpgdsSummary(snpgdsExampleFileName())
 (genofile <- snpgdsOpen(snpgdsExampleFileName()))
 
+test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/20180416200548-disease-7210.23andme.5592-no-mt.csv'
+plink_output <- 'C:/Users/jlmartinez/bioreports/upload_processed/20180416200548-disease-7210.23andme.5592'
+#plink --23file test.txt --snps-only no-DI --make-bed --out bed_file
+plink_command <- paste("plink --23file", test_upload, "--snps-only no-DI --make-bed --out", plink_output)
+system(command = plink_command)
+
 bed.fn <- "C:/Users/jlmartinez/Desktop/plink_win64/23data/plink_genome.bed"
 fam.fn <- "C:/Users/jlmartinez/Desktop/plink_win64/23data/plink_genome.fam"
 bim.fn <- "C:/Users/jlmartinez/Desktop/plink_win64/23data/plink_genome.bim"
