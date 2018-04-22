@@ -9,11 +9,12 @@ biocLite("myvariant")
 library(proxysnps)
 
 #rs429358 (19:44908684)
-d <- get_proxies(query = "rs42")
-plot(d$POS, d$R.squared, main="rs42", xlab="Position", ylab=bquote("R"^2))
-
-d <- get_proxies(chrom = "19", pos = 44908684)
+d <- get_proxies(query = "rs429358")
 head(d)
+plot(d$POS, d$R.squared, main="rs429358", xlab="Position", ylab=bquote("R"^2))
+
+d2 <- get_proxies(chrom = "19", pos = 44908684)
+head(d2)
 
 #genetics
 library(genetics)
