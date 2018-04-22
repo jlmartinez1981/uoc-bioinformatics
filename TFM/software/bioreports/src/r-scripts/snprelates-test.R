@@ -29,3 +29,6 @@ snpset <- snpgdsLDpruning(genofile, ld.threshold=0.2)
 genofile2 <- snpgdsOpen("C:/Users/jlmartinez/Desktop/test.gds")
 # Try different LD thresholds for sensitivity analysis
 snpset2 <- snpgdsLDpruning(genofile2, ld.threshold=0.2)
+
+# Get all selected snp id
+snpset2.id <- unlist(snpset2)
