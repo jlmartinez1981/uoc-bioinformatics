@@ -14,3 +14,8 @@ install.packages("stringr")
 
 #ancestry
 install.packages("radmixture")
+
+#LD
+source("http://bioconductor.org/biocLite.R")
+biocLite("gdsfmt")
+biocLite("SNPRelate")

@@ -6,9 +6,9 @@ setwd(workingDirectory);
 #clean variables
 rm(list = ls())
 
-source("http://bioconductor.org/biocLite.R")
-biocLite("gdsfmt")
-biocLite("SNPRelate")
+#source("http://bioconductor.org/biocLite.R")
+#biocLite("gdsfmt")
+#biocLite("SNPRelate")
 
 library("SNPRelate")
 snpgdsSummary(snpgdsExampleFileName())
