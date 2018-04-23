@@ -1,7 +1,7 @@
 # Modify this depending on the computer
 workingDirectory = 'C:/Users/jmartiez/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
-#workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
+workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 setwd(workingDirectory);
 
 #clean variables
@@ -16,6 +16,18 @@ if(!exists("disease_data_from_snp", mode="function")){
   # script con funciones de consulta a entrez
   source("dbSNP.R")
 }
+
+args = commandArgs(trailingOnly=TRUE)
+# Quotes can be suppressed in the output
+print(args, quote = FALSE)
+#print(args[1], quote = FALSE)
+#print(args[2], quote = FALSE)
+#print(args[3], quote = FALSE)
+#print(args[4], quote = FALSE)
+
+print("bye", quote = FALSE)
+quit()
+print("bye bye", quote = FALSE)
 
 test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/test-upload.txt'
 test_upload <- 'C:/Users/inclusite/bioreports/upload_processed/20180416200548-disease-7210.23andme.5592-chr1.csv'
@@ -57,7 +69,7 @@ data_df <- data.frame(snp_id=character(),
 total_rows <- nrow(tuple_df)
 cat(sprintf('PROCESSING DATA FRAME WITH %s ROWS \n',total_rows))
 fileToReport <- 'C:/Users/jlmartinez/bioreports/reports/disease/test.csv'
-#fileToReport <- 'C:/Users/inclusite/bioreports/reports/disease/test.csv'
+fileToReport <- 'C:/Users/inclusite/bioreports/reports/disease/test.csv'
 cat(sprintf('SAVING REPORT TO: %s \n', fileToReport))
 write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', sep = ",", append = FALSE)
 
