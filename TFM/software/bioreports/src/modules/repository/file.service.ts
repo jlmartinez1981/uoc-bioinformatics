@@ -17,6 +17,7 @@ export class FileService {
 
     public static UPLOAD_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/upload');
     public static PROCESSED_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/upload_processed');
+    public static PROCESSED_TRANSFORMATIONS_PATH: string = path.join(process.env.USERPROFILE, 'bioreports/upload_processed/transformations');
 
     /**
      * Constructor.
@@ -35,6 +36,7 @@ export class FileService {
         this.createDirIfnotExists(FileService.ANCESTRY_REPORTS_PATH);
         this.createDirIfnotExists(FileService.UPLOAD_PATH);
         this.createDirIfnotExists(FileService.PROCESSED_PATH);
+        this.createDirIfnotExists(FileService.PROCESSED_TRANSFORMATIONS_PATH);
     }
 
     public static getInstance(): FileService {

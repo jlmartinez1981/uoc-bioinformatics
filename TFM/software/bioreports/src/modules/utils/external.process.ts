@@ -16,6 +16,7 @@ export class ExternalProcess {
         processArgs.push(scriptArgs.fileToRead);
         processArgs.push(scriptArgs.fileToWrite);
         processArgs.push(scriptArgs.reportFile);
+        processArgs.push(scriptArgs.transformationsFile);
 
         const rspawn = child.spawn(r_comm, processArgs);
 
