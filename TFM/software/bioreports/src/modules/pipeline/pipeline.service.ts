@@ -46,10 +46,12 @@ export class PipelineService {
                     const diseaseEtlFileName = path.join(filePath, fileName);
                     const diseaseNewFile = path.join(FileService.PROCESSED_PATH, fileName.replace('.txt', '.csv'));
                     const diseaseReportFileName = path.join(FileService.DISEASE_REPORTS_PATH, fileName.replace('.txt', '.csv'));
+                    // directory for PLINK trnasformations
+                    const diseaseTransformationsFileName = path.join(FileService.PROCESSED_TRANSFORMATIONS_PATH, fileName.replace('.txt', ''));
 
                     const diseaseScriptData = {fileToWrite: diseaseNewFile, fileToRead: diseaseEtlFileName,
-                         reportFile: diseaseReportFileName};
-                    const diseaseScriptPath = path.join(__dirname, '../../r-scripts', 'disease-pipeline.R');
+                         reportFile: diseaseReportFileName, transformationsFile: diseaseTransformationsFileName};
+                    const diseaseScriptPath = path.join(__dirname, '../../r-scripts', 'disease-pipeline-test.R');
                     try {
                         const externalProcessResult = ExternalProcess.executeRScript(diseaseScriptPath, diseaseScriptData);
                         resolve(true);
@@ -64,9 +66,11 @@ export class PipelineService {
                     // do not change .txt by .csv
                     const ancestryNewFile = path.join(FileService.PROCESSED_PATH, fileName);
                     const ancestryReportFileName = path.join(FileService.ANCESTRY_REPORTS_PATH, fileName.replace('.txt', '.csv'));
+                    // directory for PLINK trnasformations
+                    const ancestryTransformationsFileName = path.join(FileService.PROCESSED_TRANSFORMATIONS_PATH, fileName.replace('.txt', ''));
 
                     const ancestryScriptData = {fileToWrite: ancestryNewFile, fileToRead: ancestryEtlFileName,
-                         reportFile: ancestryReportFileName};
+                         reportFile: ancestryReportFileName, transformationsFile: ancestryTransformationsFileName};
                     const ancestryScriptPath = path.join(__dirname, '../../r-scripts', 'ancestry-pipeline.R');
                     try {
                         const externalProcessResult = ExternalProcess.executeRScript(ancestryScriptPath, ancestryScriptData);
