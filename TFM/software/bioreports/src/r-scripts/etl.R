@@ -17,7 +17,7 @@ etl <- function (fileToRead, fileToWrite){
             chr_field <- fields[2]
             pos_field <- fields[3]
             allele1_field <- fields[4]
-            allele2_field <- fields[5]
+            allele2_field <- ifelse(!is.na(fields[5]), fields[5], '') 
             genotype_field <- paste(allele1_field, allele2_field, sep = "")
             if(nchar(allele1_field) > 1){
               allele1_field <- substr(fields[4],1,1)
