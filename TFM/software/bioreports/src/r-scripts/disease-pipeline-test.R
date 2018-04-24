@@ -1,7 +1,7 @@
 # Modify this depending on the computer
 workingDirectory = 'C:/Users/jmartiez/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
-workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
+#workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 setwd(workingDirectory);
 
 #clean variables
@@ -11,6 +11,10 @@ rm(list = ls())
 # script con procesos de transformación de datos
 if(!exists("etl", mode="function")){
   source("etl.R")
+}
+if(!exists("ld_data_from_snp", mode="function")){
+  # script con funciones de consulta a entrez
+  source("snprelates-LD.R")
 }
 if(!exists("disease_data_from_snp", mode="function")){
   # script con funciones de consulta a entrez
@@ -25,15 +29,22 @@ print(args, quote = FALSE)
 #print(args[3], quote = FALSE)
 #print(args[4], quote = FALSE)
 
-print("bye", quote = FALSE)
-quit()
-print("bye bye", quote = FALSE)
+#print("bye", quote = FALSE)
+#quit()
+#print("bye bye", quote = FALSE)
 
 test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/test-upload.txt'
 test_upload <- 'C:/Users/inclusite/bioreports/upload_processed/20180416200548-disease-7210.23andme.5592-chr1.csv'
-test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/20180416200548-disease-7210.23andme.5592.csv'
+test_upload <- 'C:/Users/jlmartinez/bioreports/upload_processed/20180416200548-disease-7210.23andme.5592-no-mt.csv'
 
 rawData <- read.csv(file=test_upload, header=FALSE, sep=" ", stringsAsFactors = FALSE)
+
+#basename(test_upload)
+# [1] "a.ext"
+#dirname(test_upload)
+# [1] "C:/some_dir"
+basename(test_upload)
+ld_data <- ld_data_from_snp(orig_file = test_upload, transform_file_name = basename(test_upload))
 
 tuple_df <- cbind(rawData[,1], rawData[,2], rawData[,3])
 colnames(tuple_df) <- c("rsid", "chr_id", "chr_pos")
