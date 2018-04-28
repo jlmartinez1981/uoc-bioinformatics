@@ -44,9 +44,12 @@ rawData <- read.csv(file=test_upload, header=FALSE, sep=" ", stringsAsFactors = 
 #dirname(test_upload)
 # [1] "C:/some_dir"
 basename(test_upload)
-ld_data <- ld_data_from_snp(orig_file = test_upload, transform_file_name = basename(test_upload))
+rsids.pruned <- ld_data_from_snp(orig_file = test_upload, transform_file_name = basename(test_upload))
 
-tuple_df <- cbind(rawData[,1], rawData[,2], rawData[,3])
+filtered_ld_snps <- rawData[rawData$V1 %in% rsids.pruned,]
+#filtered_ld_snps <- rawData
+
+tuple_df <- cbind(filtered_ld_snps[,1], filtered_ld_snps[,2], filtered_ld_snps[,3])
 colnames(tuple_df) <- c("rsid", "chr_id", "chr_pos")
 
 #create empty dataframe https://stackoverflow.com/questions/10689055/create-an-empty-data-frame
@@ -80,7 +83,7 @@ data_df <- data.frame(snp_id=character(),
 total_rows <- nrow(tuple_df)
 cat(sprintf('PROCESSING DATA FRAME WITH %s ROWS \n',total_rows))
 fileToReport <- 'C:/Users/jlmartinez/bioreports/reports/disease/test.csv'
-fileToReport <- 'C:/Users/inclusite/bioreports/reports/disease/test.csv'
+#fileToReport <- 'C:/Users/inclusite/bioreports/reports/disease/test.csv'
 cat(sprintf('SAVING REPORT TO: %s \n', fileToReport))
 write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', sep = ",", append = FALSE)
 
