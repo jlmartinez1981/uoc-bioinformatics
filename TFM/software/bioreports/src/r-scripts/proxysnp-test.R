@@ -12,12 +12,6 @@ rm(list = ls())
 
 library(proxysnps)
 
-f <- function(input, output) {
-  d <- get_proxies(query = input[[1]])
-  aux <- output[!d$ID,]
-  output <-  rbind(output, aux)
-}
-
 #rs429358 (19:44908684)
 #d <- get_proxies(query = "rs429358")
 #d <- get_proxies(chrom = "11", pos = 44908684)
@@ -28,24 +22,42 @@ rawData <- read.csv(file=test_upload, header=FALSE, sep=" ", stringsAsFactors = 
 # get only chr1 snps
 chr1_data <- rawData[rawData$V2 == 1,]
 
-rsids.pruned <- data.frame(V1=character(),
-                           V2=integer(), 
-                           V3=integer(),
-                           V4=character(),
-                           stringsAsFactors = FALSE)
+rsids.ld <- data.frame(V1=character(),
+                       V2=integer(), 
+                       V3=integer(),
+                       V4=character(),
+                       stringsAsFactors = FALSE)
 
-for(i in chr1_data[1:10, ]){
-    
-  d <- get_proxies(query = chr1_data$V1[[1]])
-  if(!(d[d$CHOSEN,]$ID[[1]] %in% rsids.pruned$V1)){
-   
+f <- function(input, orig) {
+  cat(sprintf('GET PROXIES: %s \n', input[[1]]))
+  #d <- get_proxies(query = input[[1]])
+  d <- tryCatch({exp=get_proxies(query = input[[1]])}, error=function(i){
+    cat(sprintf('ERROR: %s \n', i))
+    return(NULL)
+  })
+ 
+  cat('PRUNNED: ', rsids.ld$V1)
+  cat('CHOSEN: ', d[d$CHOSEN,]$ID)
+  if(!is.null(d) && !(d[d$CHOSEN,]$ID[[1]] %in% rsids.ld$V1)){
     d <- d[!d$CHOSEN,]
-    aux <- chr1_data[chr1_data$V1 %in% d$ID,]
-    rsids.pruned <-  rbind(rsids.pruned, aux)
-    
+    aux <- orig[orig$V1 %in% d$ID,]
+    rsids.ld <<-  rbind(rsids.ld, aux)
   }
 }
 
-#apply(chr1_data[1:10, ], 1, f, output = rsids.pruned)
+#kk <- apply(chr1_data[1:10, ], 1, f, orig = chr1_data, output = rsids.pruned)
+#kk <- apply(chr1_data[1:3, ], 1, f, orig = chr1_data)
+
+#rsids.pruned2 <- do.call(rbind, kk)
+#rsids.pruned2
+
+ld_data_from_proxy_snp <- function (rsid = NULL){
+  
+  kk <- apply(rsid[1:3, ], 1, f, orig = rsid)
+  
+}
+
+jj <- ld_data_from_proxy_snp(rsid = chr1_data)
+jj
 
 

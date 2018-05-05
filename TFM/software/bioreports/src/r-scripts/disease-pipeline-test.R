@@ -16,6 +16,12 @@ if(!exists("ld_data_from_snp", mode="function")){
   # script con funciones de consulta a entrez
   source("snprelates-LD.R")
 }
+
+if(!exists("ld_data_from_proxy_snp", mode="function")){
+  # script con funciones de consulta a entrez
+  source("proxysnp-LD.R")
+}
+
 if(!exists("disease_data_from_snp", mode="function")){
   # script con funciones de consulta a entrez
   source("dbSNP.R")
@@ -43,11 +49,31 @@ rawData <- read.csv(file=test_upload, header=FALSE, sep=" ", stringsAsFactors = 
 # [1] "a.ext"
 #dirname(test_upload)
 # [1] "C:/some_dir"
-basename(test_upload)
-rsids.pruned <- ld_data_from_snp(orig_file = test_upload, transform_file_name = basename(test_upload))
 
-filtered_ld_snps <- rawData[rawData$V1 %in% rsids.pruned,]
-#filtered_ld_snps <- rawData
+#### PRUEBA CON SNPRELATE ####
+#basename(test_upload)
+#rsids.pruned <- ld_data_from_snp(orig_file = test_upload, transform_file_name = basename(test_upload))
+#filtered_ld_snps <- rawData[rawData$V1 %in% rsids.pruned,]
+##############
+
+##### PRUEBA CON PROXYSNP ####
+rsids.ld <- data.frame(V1=character(),
+                       V2=integer(), 
+                       V3=integer(),
+                       V4=character(),
+                       stringsAsFactors = FALSE)
+
+# get only chr1 snps
+chr1_data <- rawData[rawData$V2 == 1,]
+
+ld_data_from_proxy_snp(rsid = chr1_data)
+
+print("bye", quote = FALSE)
+quit()
+
+filtered_ld_snps <- rawData[!(rawData$V1 %in% rsids.ld$V1),]
+#########################
+
 
 tuple_df <- cbind(filtered_ld_snps[,1], filtered_ld_snps[,2], filtered_ld_snps[,3])
 colnames(tuple_df) <- c("rsid", "chr_id", "chr_pos")
