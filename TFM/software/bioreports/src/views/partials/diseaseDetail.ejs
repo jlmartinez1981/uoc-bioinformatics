@@ -5,8 +5,9 @@
         clinical_significance: "other", gene_name: "TAB2", chrpos: "Y"
         diseases:"DIABETES MELLITUS, INSULIN-DEPENDENT, 5; IDDM5"
     -->
+    <h3><%= details.fileName %></h3>
     <div class="contentInfo">
-        <h3><%= details.fileName %></h3>
+        <h4>Diseases</h4>
         <table class="table table-striped">
             <thead style="color: #fff; background-color: #212529; border-color: #32383e;">
                 <tr>
@@ -19,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-            <% details.report.forEach(function(line) { %>
+            <% details.diseases.forEach(function(line) { %>
                 <tr>
                     <th scope="row"><%= line.snp_id %></th>                    
                     <td><%= line.gene_name %></td>
@@ -45,5 +46,7 @@
                 </tr>
             </tbody>
         </table>
-        
+        <%if (details.nutrigenomics) { %>
+            <% include ../partials/nutrigenomicsDetail %>
+        <% } %>
     </div>

@@ -151,8 +151,9 @@ export class Server {
     });
 
     this.app.get('/details', function(req: express.Request, res: express.Response) {
-      const report: any = {fileName: req.query.report, report: undefined, reportType: req.query.reportType};
-      const details: Array<object> = new Array<object>();
+      const report: any = {fileName: req.query.report, diseases: undefined, nutrigenomics: undefined,
+         reportType: req.query.reportType};
+      const diseases: Array<object> = new Array<object>();
       const reportsPath = path.join((req.query.reportType == 1 ? FileService.DISEASE_REPORTS_PATH : FileService.ANCESTRY_REPORTS_PATH ), req.query.report);
       try {
         console.log(`REPORT ${reportsPath}`);
@@ -167,14 +168,15 @@ export class Server {
                 diseasesArray = json.diseases.split('#');
                 json.diseases = diseasesArray;
               }
-              details.push(json);
+              diseases.push(json);
         })
         .on('done', async () => {
             console.log(`END REPORT ${reportsPath}`);
-            report['report'] = details;
+            report['diseases'] = diseases;
+            // nutrigenomics
+            report['nutrigenomics'] = 1;
             res.render('pages/details', {details: report});
         });
-
       } catch (err) {
         console.error(`Error showing reports page for ${reportsPath}: ${err}`);
         return res.render('pages/error', {error: err});
