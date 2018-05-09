@@ -15,6 +15,7 @@ import { PipelineService } from '../pipeline/pipeline.service';
 // import { appLogger } from '../logger/log4js.logger';
 import * as csvToJson from 'csvtojson';
 import { EOL } from 'os';
+import { OmicService } from '../pipeline/data-access/omic.service';
 
 /**
  * The server.
@@ -25,6 +26,7 @@ export class Server {
 
   public app: express.Application;
   private fileService: FileService;
+  private omicService: OmicService;
   private pipeline: PipelineService;
 
   /**
@@ -64,6 +66,7 @@ export class Server {
   private initServices(): void {
     this.fileService = FileService.getInstance();
     this.pipeline = PipelineService.getInstance();
+    this.omicService = OmicService.getInstance();
   }
 
   /**
