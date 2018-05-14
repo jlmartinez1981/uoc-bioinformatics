@@ -2,4 +2,30 @@
 <!-- views/partials/nutrigenomicsDetail.ejs -->
 <div>
     <h4>Nutrigeomics</h4>
+    <table class="table table-striped">
+        <thead style="color: #fff; background-color: #212529; border-color: #32383e;">
+            <tr>
+                <th scope="col">NUTRITION STUDY</th>
+                <th scope="col">GENES DETECTED</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% details.nutrigenomics.forEach(function(line) { %>
+            <tr>
+                <th scope="row"><%= line.study %></th>                    
+                <td>
+                    <%if (line.gene_names) { %>
+                        <div class="checkbox disabled">
+                            <label><input type="checkbox" checked value=""><%= line.gene_names %></label>
+                        </div>    
+                    <% }else{ %>  
+                        <div class="checkbox disabled">
+                            <label><input type="checkbox" value=""></label>
+                        </div>    
+                    <% } %>
+                </td>
+        <% }); %>
+            </tr>
+        </tbody>
+    </table>
 </div>

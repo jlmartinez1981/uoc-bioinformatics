@@ -8,10 +8,10 @@
             <th scope="col">REGION VALUE</th>
         </thead>
         <tbody>
-            <% Object.keys(details.report[0]).forEach(function(region) { %>
+            <% Object.keys(details.ancestry[0]).forEach(function(region) { %>
                 <tr>
                     <td scope="col"><%= region %></td>
-                    <td scope="col"><%= parseFloat(details.report[0][region]).toFixed(6) %></td>
+                    <td scope="col"><%= parseFloat(details.ancestry[0][region]).toFixed(6) %></td>
                 </tr>
             <% }); %>    
         </tbody>

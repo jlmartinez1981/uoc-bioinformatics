@@ -16,6 +16,7 @@ import { PipelineService } from '../pipeline/pipeline.service';
 import * as csvToJson from 'csvtojson';
 import { EOL } from 'os';
 import { OmicService } from '../pipeline/data-access/omic.service';
+import { ReportUtils } from '../utils/report.utils';
 
 /**
  * The server.
@@ -156,7 +157,7 @@ export class Server {
     this.app.get('/details', function(req: express.Request, res: express.Response) {
       const report: any = {fileName: req.query.report, diseases: undefined, nutrigenomics: undefined,
          reportType: req.query.reportType};
-      const diseases: Array<object> = new Array<object>();
+      const reportData: Array<object> = new Array<object>();
       const reportsPath = path.join((req.query.reportType == 1 ? FileService.DISEASE_REPORTS_PATH : FileService.ANCESTRY_REPORTS_PATH ), req.query.report);
       try {
         console.log(`REPORT ${reportsPath}`);
@@ -171,13 +172,19 @@ export class Server {
                 diseasesArray = json.diseases.split('#');
                 json.diseases = diseasesArray;
               }
-              diseases.push(json);
+              reportData.push(json);
         })
         .on('done', async () => {
             console.log(`END REPORT ${reportsPath}`);
-            report['diseases'] = diseases;
-            // nutrigenomics
-            report['nutrigenomics'] = 1;
+            if (req.query.reportType == 1) {
+              report['diseases'] = reportData;
+              // nutrigenomics
+              const geneNames = ReportUtils.extractGenesFromReport(reportData);
+              const nutrigenomics: object = that.omicService.getNutrigeneticsFromGenes(geneNames);
+              report['nutrigenomics'] = 1;
+            } else if (req.query.reportType == 2) {
+              report['ancestry'] = reportData;
+            }
             res.render('pages/details', {details: report});
         });
       } catch (err) {

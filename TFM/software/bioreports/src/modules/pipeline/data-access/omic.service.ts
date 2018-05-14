@@ -84,4 +84,12 @@ export class OmicService {
     public getNutrigeneticsMap(): Map<string, Array<string>> {
         return this.nutrigeneticsMap;
     }
+
+    public getNutrigeneticsFromGenes(genes: Array<string>): object {
+        const report: Object = {fileName: undefined, diseases: undefined, nutrigenomics: undefined,
+            reportType: undefined};
+        // for each map key, go through its values
+
+        return report;
+    }
 }
