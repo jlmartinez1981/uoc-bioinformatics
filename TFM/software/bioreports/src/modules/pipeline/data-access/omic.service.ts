@@ -85,11 +85,21 @@ export class OmicService {
         return this.nutrigeneticsMap;
     }
 
-    public getNutrigeneticsFromGenes(genes: Array<string>): object {
-        const report: Object = {fileName: undefined, diseases: undefined, nutrigenomics: undefined,
-            reportType: undefined};
+    public getNutrigeneticsFromGenes(genes: Array<string>): Array<object> {
+        const nutrigeneticsReport: Array<object> = Array<object>();
         // for each map key, go through its values
-
-        return report;
+        this.nutrigeneticsMap.forEach((value: string[], key: string) => {
+            const nutrigeneticsElement: any = {study: key, gene_names: undefined};
+            const matchingGenes: string[] = Array<string>();
+            // for each value check if matches with genes in report
+            value.forEach(element => {
+                if (genes.indexOf(element) > -1) {
+                    matchingGenes.push(element);
+                }
+            });
+            nutrigeneticsElement['gene_names'] = matchingGenes;
+            nutrigeneticsReport.push(nutrigeneticsElement);
+        });
+        return nutrigeneticsReport;
     }
 }

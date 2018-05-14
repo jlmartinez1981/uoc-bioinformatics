@@ -180,8 +180,8 @@ export class Server {
               report['diseases'] = reportData;
               // nutrigenomics
               const geneNames = ReportUtils.extractGenesFromReport(reportData);
-              const nutrigenomics: object = that.omicService.getNutrigeneticsFromGenes(geneNames);
-              report['nutrigenomics'] = 1;
+              const nutrigenomics: Array<object> = that.omicService.getNutrigeneticsFromGenes(geneNames);
+              report['nutrigenomics'] = nutrigenomics;
             } else if (req.query.reportType == 2) {
               report['ancestry'] = reportData;
             }

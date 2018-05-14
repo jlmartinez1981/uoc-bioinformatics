@@ -14,13 +14,13 @@
             <tr>
                 <th scope="row"><%= line.study %></th>                    
                 <td>
-                    <%if (line.gene_names) { %>
+                    <%if (line.gene_names && line.gene_names.length > 0) { %>
                         <div class="checkbox disabled">
-                            <label><input type="checkbox" checked value=""><%= line.gene_names %></label>
+                            <label><input type="checkbox" disabled checked value=""><%= line.gene_names %></label>
                         </div>    
                     <% }else{ %>  
                         <div class="checkbox disabled">
-                            <label><input type="checkbox" value=""></label>
+                            <label>None</label>
                         </div>    
                     <% } %>
                 </td>
