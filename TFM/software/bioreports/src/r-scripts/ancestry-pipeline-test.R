@@ -4,7 +4,7 @@ library(radmixture)
 # Modify this depending on the computer
 workingDirectory = 'C:/Users/jmartiez/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 workingDirectory = 'C:/Users/jlmartinez/Desktop/UOC-Bioinformatics/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
-workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
+#workingDirectory = 'C:/Users/inclusite/Documents/uoc-bioinformatics/TFM/software/bioreports/src/r-scripts';
 setwd(workingDirectory);
 
 #clean variables
@@ -37,7 +37,7 @@ ances <- fFixQN(res$g, res$q, res$f, tol = 1e-4, method = "BR", pubdata = "K13")
 ances$q
 
 # TODO save into reports folder
-fileToReport <- 'C:/Users/jlmartinez/bioreports/reports/ancestry/test.csv'
+fileToReport <- 'C:/Users/jlmartinez/bioreports/reports/ancestry/20180415210238-ancestry-7210.23andme.5592.csv'
 # http://rprogramming.net/write-csv-in-r/
 cat(sprintf('SAVING REPORT TO: %s \n', fileToReport))
 write.csv(ances$q, file = fileToReport,row.names=FALSE, na = '')
