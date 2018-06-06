@@ -36,11 +36,13 @@
                         </ul>
                     </td>
                     <td>
-                        <ul>
-                            <% line.diseases.forEach(function(dis) { %>
-                                <li><%= dis %></li>
-                            <% }); %>    
-                        </ul>
+                        <%if (line.diseases) { %>
+                            <ul>
+                                <% line.diseases.forEach(function(dis) { %>
+                                    <li><%= dis %></li>
+                                <% }); %>    
+                            </ul>
+                        <% } %>
                     </td>
             <% }); %>
                 </tr>
