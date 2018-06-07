@@ -43,7 +43,9 @@ if(etlRes){
   
   total_rows <- nrow(tuple_df)
   cat(sprintf('PROCESSING DATA FRAME WITH %s ROWS \n',total_rows))
-  write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', append = FALSE)
+  #write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', append = FALSE)
+  write.table(data_df, file = fileToReport, row.names=FALSE, col.names = TRUE, na = '', sep = ",", append = FALSE)
+  
   for(i in 1:total_rows){
     chr <- tuple_df[i,][[1]]
     pos <- tuple_df[i,][[2]]
@@ -54,7 +56,8 @@ if(etlRes){
         return(NULL)
         })
       if(!is.null(subdata_df)){
-        write.table(subdata_df, file = fileToReport, row.names=FALSE, col.names = FALSE, na = '', append = TRUE)
+        #write.table(subdata_df, file = fileToReport, row.names=FALSE, col.names = FALSE, na = '', append = TRUE)
+        write.table(subdata_df, file = fileToReport,row.names=FALSE, col.names = FALSE, na = 'NA', sep = ",", append = TRUE)
         data_df <- rbind(data_df, subdata_df)     
       }
     }  
